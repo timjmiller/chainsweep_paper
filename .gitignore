@@ -1,4 +1,6 @@
 code/*.o
 code/*.so
+code/survey/*.o
+code/survey/*.so
 results/big_results
 code/gather_data

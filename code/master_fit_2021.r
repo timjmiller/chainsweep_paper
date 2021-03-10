@@ -47,7 +47,7 @@ for(i in 1:NROW(sp.info))
 first.names = paste0(rep(c("bi", "bb"), c(5,8)), c(0:4,0:7))
 
 
-for(i in 2:NROW(sp.info))
+for(i in 1:NROW(sp.info))
 {
   print(i)
   sp = sp.info$sp.names[i]
@@ -158,80 +158,74 @@ for(i in 2:NROW(sp.info))
   remove(combined.data)
 }
 
-
-#Then do bootstrap fits of the models
-#set up bootstrap scripts to run on unix servers
-fname = "twintrawl_bootstrap_commands.txt"
+fname = paste0(parentdir, "/code/twintrawl_bootstrap_commands.txt")
+write("#commands to run on venus in corresponding directory.", file = fname, append = FALSE)
+write("#bootstrap estimates of relative efficiency for from twin trawl data.", file = fname, append = TRUE)
 for(i in 1:NROW(sp.info))
 {
-  setwd(sp.info$sp.names[i])
-  file.copy(paste0(parentdir,"/code/boot_1_script.r"), paste0(parentdir, "/results/",sp))
-  file.copy(paste0(parentdir,"/code/boot_2_script.r"), paste0(parentdir, "/results/",sp))
-  load(paste0(parentdir,"/results/",sp,"/twintrawl.dn.res.RData")
-  x = twintrawl.dn.res
-  setwd(parentdir)
-  source("get.best.r")
+  print(i)
+  sp = sp.info$sp.names[i]
+  print(sp)
+
+  #setwd(sp.info$sp.names[i])
+  #setwd(parentdir)
+  #file.copy("boot_script.r", sp)
+  x = readRDS(paste0(parentdir, "/results/big_results/", sp,"_model_fits.RDS"))
   #convergence issues for the models?
   #aic for the models
-  y = get.best(sp.info$sp.names[i])
-  setwd(sp.info$sp.names[i])
-  best.model = y$best.model 
-  best.dn.model = y$best.dn.model
-  write("#commands to run on venus in corresponding directory.", file = fname, append = FALSE)
-  write("#bootstrap estimates of relative efficiency for from twin trawl data.", file = fname, append = TRUE)
-  for(j in 0:9) write(paste0("Rscript --vanilla boot_1_script.r ", j, "23456 100 ",  j, " ", best.model, " &"), file = fname, append = TRUE)
-  write("#bootstrap estimates of relative efficiency for day and night from twin trawl data.", file = fname, append = TRUE)
-  write("#day", file = fname, append = TRUE)
-  for(j in 0:9) write(paste0("Rscript --vanilla boot_2_script.r ", j, "23456 100 1 0 ",  j, " ", best.dn.model, " &"), file = fname, append = TRUE)
-  write("#night", file = fname, append = TRUE)
-  for(j in 0:9) write(paste0("Rscript --vanilla boot_2_script.r ", j, "23456 100 0 1 ",  j, " ", best.dn.model, " &"), file = fname, append = TRUE)
-  setwd(parentdir)
+  best.model = get.best(sp, parentdir)$best.model 
+  for(j in 0:9) write(paste0("Rscript --vanilla code/boot_script.r ", j, "23456 100 ",  j, " ", best.model, " ", i, " &"), file = fname, append = TRUE)
 }
 
-#run bootstrap scripts to run on unix servers
-#then copy results files back to local directories
-#then combine bootstrap results into a single file
-x = rep(1:NROW(sp.info), sp.info$NSTOCKS)
-for(i in 1:NROW(x)) # i = 7 #goosefish
+
+#push all info needed for bootstrapping to server
+#rsync -arvxu ~/work/paired_tow_studies/R/2020/winter_flounder saturn.nefsc.noaa.gov:/home7/tmiller2/work/paired_tow_studies/R/2020
+
+#pull all bootstrap results back to local machine
+#rsync -arvxu saturn.nefsc.noaa.gov:/home7/tmiller2/work/paired_tow_studies/R/2020/winter_flounder ~/work/paired_tow_studies/R/2020
+
+setwd(sp)
+load("boot_pred_eta_0.RData")
+temp = boot.pred.eta
+for(j in 1:9)
 {
-
-  setwd(sp.info$sp.names[i])
-  load("boot_pred_eta_0.RData")
-  temp = boot.pred.eta
-  for(j in 1:9)
-  {
-    load(paste0("boot_pred_eta_", j, ".RData"))
-    temp = rbind(temp, boot.pred.eta) 
-  }
-  boot.pred.eta = temp
-  save(boot.pred.eta, file = "boot.pred.eta.RData")
-
-  load("boot_pred_eta_day_0.RData")
-  temp = boot.pred.eta.day
-  for(j in 1:9)
-  {
-    load(paste0("boot_pred_eta_day_", j, ".RData"))
-    temp = rbind(temp, boot.pred.eta.day) 
-  }
-  boot.pred.eta.day = temp
-  save(boot.pred.eta.day, file = "boot.pred.eta.day.RData")
-
-  load("boot_pred_eta_night_0.RData")
-  temp = boot.pred.eta.night
-  for(j in 1:9)
-  {
-    load(paste0("boot_pred_eta_night_", j, ".RData"))
-    temp = rbind(temp, boot.pred.eta.night) 
-  }
-  boot.pred.eta.night = temp
-  save(boot.pred.eta.night, file = "boot.pred.eta.night.RData")
-  
-  setwd(parentdir)
+  load(paste0("boot_pred_eta_", j, ".RData"))
+  temp = rbind(temp, boot.pred.eta) 
 }
+boot.pred.eta = temp
+saveRDS(boot.pred.eta, file = "boot.pred.eta.RDS")
+setwd(parentdir)
+  
+source("plot.results.r")
+plot.results("red_hake", ymax = c(40,20), xlim = c(10,50)) #red hake
+
+x = readRDS(paste0(parentdir,"/",sp,"/model_fits.RDS"))
+
+ind = length(x$pred.length)
+png(filename = paste0("~/work/paired_tow_studies/R/2020/",sp,"/plot_for_Dave.png"), width = 12*144, height = 12*144, res = 144, pointsize = 12, family = "Times")#,
+plot(x$pred.length,x$model.fits$bi2$model.res$rep$mean_pred_eta[1:ind], type = 'n', ylim = c(-1,log(20)), xlab = "Length", ylab = "Ln Relative Efficiency")
+grid()
+lines(x$pred.length,x$model.fits[[best.model]]$model.res$rep$mean_pred_eta[1:ind], col = 'red')
+lines(x$pred.length,x$model.fits[[best.model]]$model.res$rep$mean_pred_eta[1:ind + ind], col = 'blue')
+
+load(paste0(parentdir,"/",sp,"/combined_data.RData"))
+
+
+x = combined.data$catch.length
+x$ratio = x$expnumlen.ch/x$expnumlen.rh
+x$ratio[is.infinite(x$ratio)] = NA
+x$ratio[x$ratio == 0] = NA
+x = aggregate(ratio ~ length * day.night, data = x, FUN = mean, na.rm = TRUE)
+points(x$length[x$day.night == 'day'], log(x[x$day.night == 'day',3]), col = 'red', pch = 19)
+points(x$length[x$day.night == 'night'], log(x[x$day.night == 'night',3]), col = 'blue', pch = 19)
+
+x = aggregate(cbind(expnumlen.ch, expnumlen.rh) ~ length * day.night, data = combined.data$catch.length, FUN = sum)
+points(x$length[x$day.night == 'day'], log(x[,3]/x[,4])[x$day.night == 'day'], col = 'red', pch = 2)
+points(x$length[x$day.night == 'night'], log(x[,3]/x[,4])[x$day.night == 'night'], col = 'blue', pch = 2)
+dev.off()
+
 
 #make plots of results for each species including bootstrap-based confidence intervals.
-source("plot.results.fn.r")
-source("get.best.r")
 plot.results.fn(1) 
 for(i in 2:6) plot.results.fn(i) 
 plot.results.fn(7) #goosefish

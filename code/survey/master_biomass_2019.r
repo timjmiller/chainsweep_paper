@@ -2,58 +2,36 @@
 #home0/pdy/pub/STOCKEFF/ADIOS/ADIOS_SV/website/webfiles
 #rsync -arvxu saturn.nefsc.noaa.gov:/home0/pdy/pub/STOCKEFF/ADIOS/ADIOS_SV/website/webfiles ~/work/paired_tow_studies/R
 
-#make estimates of biomass and numbers at length by converting from rockhopper to chainsweep gear.
-library(RODBC)
-creds = readLines("/home/tmiller2/work/oracle_uid_pwd.txt")
-sole <- odbcConnect(dsn="sole", uid=creds[1], pwd=creds[2], believeNRows=FALSE)
-source("define.stock.strata.r")
-remove(sole)
-save(spring.strata.sizes,fall.strata.sizes, fall.strata, spring.strata, big.swept.area, stocks, use.stock.names, sp.info, parentdir, file = "stock.strata.RData")
+parentdir = getwd() #main repo directory
+setwd("code/survey")
+library(TMB)
+compile("wal.cpp")
+dyn.load(dynlib("wal"))
+setwd(parentdir)
+source(paste0(parentdir, "/code/get.best.r"))
+load(paste0(parentdir,"/data/survey/stock.strata.RData"))
+source(paste0(parentdir, "/code/survey/estimate_biomass.r")
 
-  estimate_biomass(sp.i = x[i], stock.i = i, sp.info, sole, do.lendat = TRUE, do.lw.dat = TRUE, do.N.W = TRUE, years = 2009, filename.mod = "test_") 
-  source("estimate_biomass_2019.r")
-sole <- odbcConnect(dsn="sole", uid=creds[1], pwd=creds[2], believeNRows=FALSE)
-estimate_biomass(sp.i = x[i], stock.i = i, sp.info, sole, do.lendat = TRUE, do.lw.dat = TRUE, do.N.W = TRUE, 
-	years = 2009:2019, filename.mod = "2019_", min.length.calibrate = 30)
-  setwd(parentdir)
-  odbcCloseAll()
-x = rep(1:NROW(sp.info), sp.info$NSTOCKS)
+file.name.prefix = paste0(parentdir, "/results/"
+survey.years = 2009:2019
+
+#make estimates of biomass and numbers at length by converting from rockhopper to chainsweep gear.
 for(i in 1:length(x))
 {
-  setwd(parentdir)
-  load("stock.strata.RData")
   print(stocks[i])
-  source("get.best.r")
-  source("estimate_biomass_2019.r")
   sole <- odbcConnect(dsn="sole", uid=creds[1], pwd=creds[2], believeNRows=FALSE) 
   #30+ biomass for GOM winter flounder
-  if(stocks[i] == "gom_winter_flounder") estimate_biomass(sp.i = x[i], stock.i = i, sp.info, sole, do.lendat = TRUE, do.lw.dat = TRUE, do.N.W = TRUE, 
-	years = 2009:2019, filename.mod = "2019_", min.length.calibrate = 30)
+  if(stocks[i] == "gom_winter_flounder") estimate_biomass(sp.i = x[i], stock.i = i, sp.info, do.lendat = TRUE, do.lw.dat = TRUE, do.N.W = TRUE, 
+	years = survey.years, filename.mod = file.name.prefix, min.length.calibrate = 30)
 	 #goosefish uses different TOGA definition
-  if(stocks[i] %in% c("north_goose", "south_goose")) estimate_biomass(sp.i = x[i], stock.i = i, sp.info, sole, do.lendat = TRUE, do.lw.dat = TRUE, do.N.W = TRUE, 
-	years = 2009:2019, filename.mod = "2019_",  TOGA.operation = 2) 
-  if(!(stocks[i] %in% c("gom_winter_flounder", "north_goose", "south_goose"))) estimate_biomass(sp.i = x[i], stock.i = i, sp.info, sole, do.lendat = TRUE, do.lw.dat = TRUE, do.N.W = TRUE, 
-	years = 2009:2019, filename.mod = "2019_")
+  if(stocks[i] %in% c("north_goose", "south_goose")) estimate_biomass(sp.i = x[i], stock.i = i, sp.info, do.lendat = TRUE, do.lw.dat = TRUE, do.N.W = TRUE, 
+	years = survey.years, filename.mod = file.name.prefix,  TOGA.operation = 2) 
+  if(!(stocks[i] %in% c("gom_winter_flounder", "north_goose", "south_goose"))) estimate_biomass(sp.i = x[i], stock.i = i, sp.info, do.lendat = TRUE, do.lw.dat = TRUE, do.N.W = TRUE, 
+	years = survey.years, filename.mod = file.name.prefix)
   setwd(parentdir)
   odbcCloseAll()
 }
 
-#after fall comes in
-y = 2019
-for(i in 1:length(x))
-{
-  setwd(parentdir)
-  load("stock.strata.RData")
-  print(stocks[i])
-  source("get.best.r")
-  source("estimate_biomass_2019.r")
-  sole <- odbcConnect(dsn="sole", uid=creds[1], pwd=creds[2], believeNRows=FALSE) #for some reason does not work in Rstudio on linux.
-  if(stocks[i] == "gom_winter_flounder") estimate_biomass(sp.i = x[i], stock.i = i, sp.info, sole, do.lendat = TRUE, do.lw.dat = TRUE, do.N.W = TRUE, 
-	years = y, filename.mod = paste0(y,"_"), min.length.calibrate = 30) else 
-  estimate_biomass(sp.i = x[i], stock.i = i, sp.info, sole, do.lendat = TRUE, do.lw.dat = TRUE, do.N.W = TRUE, years = y, filename.mod = paste0(y,"_"))
-  setwd(parentdir)
-  odbcCloseAll()
-}
 
 ##############################################
 #do bootstraps for each stock
@@ -62,36 +40,21 @@ for(i in 1:length(x))
 ##############################################
 
 #make the unix commands to run on venus. copy and paste from this file.
-fname = "bootstrap_biomass_commands_2019.txt"
+fname = paste0(parentdir"bootstrap_biomass_commands.txt"
 write("#commands for bootstrapping biomass estimates on venus in corresponding directory.", file = fname, append = FALSE)
 x = rep(1:NROW(sp.info), sp.info$NSTOCKS)
 for(i in 1:length(x))
 {
   for(d in 1:2) {
-    for(y in 2009:2018) {
+    for(y in survey.years) {
       write(paste0("Rscript --vanilla boot_biomass_2019_script.r 1000 ", x[i], " ", i, " ", y, " ", d, " 1 1 &"), file = fname, append = TRUE)
     }
     #fall not available yet for 2019
-    write(paste0("Rscript --vanilla boot_biomass_2019_script.r 1000 ", x[i], " ", i, " ", 2019, " ", d, " 1 0 &"), file = fname, append = TRUE)
+    #write(paste0("Rscript --vanilla boot_biomass_2019_script.r 1000 ", x[i], " ", i, " ", 2019, " ", d, " 1 0 &"), file = fname, append = TRUE)
   }
   write("\n", file = fname, append = TRUE)
 }
 
-#after fall comes in
-years = 2019
-seasons = c(1,1) #1 = spring, 2 = fall
-fname = paste0("bootstrap_biomass_commands_", years, ".txt")
-write("#commands for bootstrapping biomass estimates on venus in corresponding directory.", file = fname, append = FALSE)
-x = rep(1:NROW(sp.info), sp.info$NSTOCKS)
-for(y in years) {
-  for(d in 1:2) {
-    for(i in 1:length(x))
-    {
-      write(paste("Rscript --vanilla boot_biomass_2019_script.r 1000", x[i], i, y, d, paste(seasons, collapse = " "), collapse = " "), file = fname, append = TRUE)
-    }
-    write("\n", file = fname, append = TRUE)
-  }
-}
 #push all info needed for bootstrapping to serveri
 #rsync -arvxu ~/work/paired_tow_studies saturn.nefsc.noaa.gov:/home7/tmiller2/work
 
