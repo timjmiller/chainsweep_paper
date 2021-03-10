@@ -1,0 +1,4 @@
+code/*.o
+code/*.so
+results/big_results
+code/gather_data

@@ -1,0 +1,365 @@
+
+% LaTeX Report Template - customizing header and footer
+\documentclass[12pt,letterpaper, leqno]{article}
+%\documentclass[author]{nrc2}
+\usepackage[bottom=1in, top=1in, left=1in, right=1in]{geometry}
+\usepackage{amsmath,rotating}
+\usepackage[scanall]{psfrag}
+\usepackage{setspace}
+\usepackage{bm}
+\usepackage{lineno}
+\usepackage{caption,graphics}
+\usepackage{graphicx}
+\usepackage{lscape}
+\usepackage{natbib}
+\usepackage[nottoc]{tocbibind}
+\usepackage{indentfirst}
+\usepackage{longtable}
+\usepackage{sectsty}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{xspace}
+\usepackage{textcomp}
+\usepackage{marvosym}
+
+%\usepackage{../MSY}
+\bibpunct[, ]{(}{)}{;}{a}{}{,}
+\renewcommand\bibname{References}
+\renewcommand\figurename{Fig.}
+\captionsetup{labelsep=period, singlelinecheck=false}
+%\doublespace
+\def\little{\fontsize{7pt}{7pt}\selectfont}
+\def\Little{\fontsize{10pt}{10pt}\selectfont}
+\special{papersize=8.5in,11in}
+
+\newcommand{\diag}{\text{diag}} 
+\newcommand{\super}[1]{\ensuremath{^{\text{#1}}}}
+\newcommand{\sub}[1]{\ensuremath{_{\text{#1}}}}
+\newcommand{\CP}{\ensuremath{\text{CP}}\xspace} 
+\newcommand{\SSB}{\ensuremath{\text{SSB}}\xspace} 
+
+\begin{document}
+\input{/home/tmiller2/work/bibliographies/journalshortcuts}
+
+\pagestyle{plain}
+
+\begin{titlepage}\center \large
+
+\vspace{144pt}
+
+Relative efficiency of a chain sweep and the rockhopper sweep used for the NEFSC bottom trawl survey and biomass estimates for winter and windowpane flounder and  red hake stocks
+
+\vspace{144pt}
+
+Timothy J. Miller\footnote{Northeast Fisheries Science Center, 166 Water Street, Woods Hole, MA 02543 USA}, David Richardson\footnote{Northeast Fisheries Science Center, Naragansett, RI USA}, Phil Politis\footnotemark[1], Jessica Blaylock\footnotemark[1], John Manderson\footnote{Northeast Fisheries Science Center, National Marine Fisheries Service, Sandy Hook, NJ USA}, and Chris Roebuck\footnote{F/V Karen Elizabeth, Pt. Judith, RI, USA}\\
+
+\end{titlepage}
+
+\setcounter{page}{2}
+%\linenumbers
+
+\cfoot{\thepage}
+
+\setcounter{page}{2}
+\def\fourteenbold{\fontseries{b}\fontsize{14pt}{12pt}\selectfont}
+\def\twelvebold{\fontseries{b}\fontsize{12pt}{12pt}\selectfont}
+\def\twelveit{\fontshape{it}\fontseries{m}\fontsize{12pt}{12pt}\selectfont}
+\sectionfont{\fourteenbold}
+\subsectionfont{\twelvebold}
+\subsectionfont{\twelvebold}
+\subsubsectionfont{\twelveit}
+
+\section*{Abstract}
+
+Using a general hierarchical model we estimated relative efficiency of chain sweep to the rockhopper sweep used by the NEFSC bottom trawl survey for winter and windowpane flounder stocks and red hake stocks from studies carried out between 2015 and 2017 aboard the F/V Karen Elizabeth twin-trawl vessel. Aside from the sweeps, the rest of the trawl gear is the same.  We compared a set of models with different assumptions about variation of relative efficiency between paired gear tows, size and diel effects on the relative efficiency, and extra-binomial variation of observations within paired gear tows.  Diel effects provided improved model performance for all three species. We used the best performing model to make annual chain sweep-based swept area biomass and abundance-at-length estimates. We estimated uncertainty in all results using bootstrap procedures for each data component. %The best model includes size e ffects on and variation in relative catch efficiency between each paired tows. 
+
+\pagebreak
+
+\section*{Introduction}
+
+Paired-gear studies have long been used to estimate the efficiency of one fishing gear relative to another \citep[e.g.,][]{gulland64,bourne65}.  These types of studies are critical for informing abundance time series from fishery independent surveys when there are changes in the vessel and(or) gears over time due to gear failures or improved technology. 
+
+In conducting paired-gear studies it is ideal to have the two gears deployed as close together spatially and temporally as possible to reduce variation between the gears in densities of the species being captured. One fishing method that approaches this ideal is the twin-trawl rigging where two trawls can be fished simultaneously \citep{ices96}. The basic methods we used here are based on those used by \citet{miller13} to estimate size effects on relative catch efficiency of the Henry B. Bigelow to the Albatrosss IV. Similar approaches were used to make similar estimates for groundfish, TRAC stocks and summer flounder \citep{milleretal17a,milleretal17b}.  The methods here are the same as those used for red hake for the red hake research track assessments \citep{milleretal20}.
+
+\section*{Methods}
+
+\subsection*{Data collection}
+
+Data were collected during three field experiments carried out in 2015, 2016, and 2017, respectively, aboard the F/V Karen Elizabeth, a 78ft stern trawler capable of towing two trawls simultaneously side by side. However, red hake were only observed during the 2017 field experiments. One side of the twin-trawl rig towed a NEFSC standard 400 x 12 cm survey bottom trawl rigged with the NEFSC standard rockhopper sweep \citep[]{politisetal14} (Figure 1). The other side of the twin-trawl rig towed a version the NEFSC 400 x 12cm survey bottom trawl modified to maximize the capture of flatfish. The trawl was modified by reducing the headline flotation from 66 to 32, 20cm, spherical floats, reducing the port and starboard top wing-end extensions by 50cm each and utilizing a chain sweep. The chain sweep was constructed of 1.6cm (5/8in) trawl chain covered by 12.7cm diameter x 1cm thick rubber discs on every other chain link (Figure 2). Two rows of 1.3cm (1/2in) tickler chains were attached to the 1.6cm trawl chain by 1.3cm shackles (Figure 2). To ensure equivalent net geometry of each gear, 32m restrictor ropes, made of 1.4cm (9/16in) buoyant, Polytron rope, were attached between each of the trawl doors and the center clump. 3.4m2 Thyboron Type 4 trawl doors were used to provide enough spreading force to ensure the restrictor ropes remained taut throughout each tow. Each trawl used the NEFSC standard 36.6m bridles. All tows followed the NEFSC standard survey towing protocols of 20 minutes at 3.0 knots. In 2015, 108 (45 day, 63 night) paired tows were conducted in eastern Georges Bank and off of southern New England (Figure \ref{2015_tow_locations}). In 2016, 117 (74 day, 43 night) paired tows were conducted in western Gulf of Maine and northern edge of Georges Bank (Figure \ref{2016_tow_locations}).  In 2017, 103 (61 day, 42 night) paired tows were conducted in waters off of southern New England (Figure \ref{2017_tow_locations}). Paired tows were denoted as ``day'' and ``night''  by whether the sun was above or below the horizon at the time of the tow. 
+
+Winter flounder were caught in 171 paired tows (97 day, 74 night). Overall 6,449  winter flounder were measured for length. The subsampling fractions implied an estimated 6,586 winter flounder were captured across all paired tows. 3805 and 2644 length measurements were made for the chainsweep and rockhopper gears, respectively.  During the day, 2385 and 1220 winter flounder were measured in catches by the respective gears whereas during the night 1420 and 1424 were measured in catches by the respective gears.
+
+Windowpane flounder were caught in 195 paired tows (100 day, 95 night). Overall 13,014 windowpane were measured for length. The subsampling fractions implied an estimated 15,310 windowpane were captured across all paired tows. 9854 and 3160 length measurements were made for the chainsweep and rockhopper gears, respectively.  During the day, 5443 and 778 windowpane were measured in catches by the respective gears whereas during the night 4411 and 2382 were measured in catches by the respective gears.
+
+Red hake were caught in 73 paired tows (40 day, 33 night). Overall 12,585  red hake were measured for length. The subsampling fractions implied an estimated 47,275 red hake were captured across all paired tows. 8587 and 3998 length measurements were made for the chainsweep and rockhopper gears, respectively.  During the day, 4908 and 1706 red hake were measured in catches by the respective gears whereas during the night 3679 and 2292 were measured in catches by the respective gears.
+
+\subsection*{Paired-tow analyses}
+
+We use the hierarchical modeling approach from \citet{miller13} to estimate the relative efficiency of chain sweep to the rockhopper sweep used by the NEFSC bottom trawl survey for six species from three studies carried out aboard a twin trawl vessel. Aside from the sweeps the rest of the trawl gear is the same.  As in \citet{miller13}, we compared a set of models with different assumptions about variation of relative efficiency between paired gear tows, size effects on the relative efficiency, and extra-binomial variation of observations within paired gear tows. We began with the same 13 models considered by \citet{miller13}. Models BI$_1$ to BI$_4$ and BB$_1$ to BB$_8$ in Table \ref{models_table_winter} provides a descriptions of the models fitted for all species and pseudo-formulas comparable to those used for fitting models in R and the mgcv package \citep{R19,wood06}. We then also included diel effects on relative catch efficiency and intereactions with size effects with the best performing model of the original 13 models for each species. For red hake, these are the same analyses provided in \citet{milleretal20} and the new analyses for winter and windowpane flounder are analogous. The analyses here and in \citet{milleretal20} are similar to those by \citet{milleretal17a,milleretal17b,milleretal18}, but a more generalized model has been implemented that allows multiple smooth effects on relative catch efficiency so that models do not have to be fit separately to observations occurring during the day and night. Therefore, diel effects on relative catch efficiency and interactions with size effects can be considered while allowing other parameters to be the same for all observations. 
+
+\subsection*{Length-weight analysis}
+
+We fit length-weight relationships to the length and weight observations for each survey each year. We assumed weight observation $j$ from survey $i$, was log-normal distributed,
+\begin{equation}\label{wal}
+ \log W_{ij} \sim \text{N}\left(\log \alpha_i + \beta_i \log L_{ij} - \frac{\sigma_i^2}{2}, \sigma_i^2\right)
+\end{equation}
+We used a bias correction to ensure the expected weigth $E(W_{ij})= \alpha_i L_{ij}^{\beta_i}$. We estimated parameters by maximizing the model likelihood programmed in TMB \citep{kristensenetal16} and R \citep{R19}. Like the relative catch efficiency, bootstrap predictions of weight at length were made by sampling with replacement the length-weight observations within each annual survey and refitting the length-weight relationship to each of the bootstrap data sets.
+
+
+\subsection*{Biomass estimation}
+
+We estimated biomass for each annual survey in terms of chainsweep efficiency by scaling the survey tow observations by the relative efficiency of the chainsweep and rockhopper sweep gears. First the tow-specific catches at length are rescaled,
+\begin{equation}\label{nal}
+\widetilde N_{hi}\left(L\right) = N_{hi}\left(L\right)\widehat \rho_i\left(L\right)
+\end{equation}
+where $N_{hi}(L)$ is the number at length $L$ in tow $i$ from stratum $h$ and $\widehat \rho_i\left(L\right)$ is the relative efficiency of the chain sweep to rockhopper sweep at length $L$ estimated from the twin trawl observations, that may depend on the diel characteristic of tow $i$ if that factor is in the best model fitted to the twin-trawl observations. Note that we have omitted any subscripts denoting the year or survey. 
+
+The stratified abundance estimate is then calculated using the design-based estimator, 
+\begin{equation}\label{Nal_estimate}
+ \widehat N(L) = \sum^H_{h=1} \frac{A_h}{An_h}\sum^{n_h}_{i=1} \widetilde N_{hi}(L)
+\end{equation}
+where $A_h$ is the area of stratum $h$, $A=\sum^H_{h=1} A_h$, and $n_h$ is the number of tows that were made in stratum h. The corresponding biomass estimate is then
+\begin{equation}\label{biomass_estimate}
+ \widehat B = \sum^{n_L}_{l=1} \widehat N(L = l) \widehat w(L=l)
+\end{equation}
+where $\widehat w(L=l)$ is the estimated weight at length from fitting length-weight observations described above. Length is typically measured to the nearest cm so $n_L$ indicates the number of 1 cm length categories that were observed during the survey. 
+
+To estimate uncertainty in biomass, we used bootstrap results for the relative catch efficiency and weight at length estimates along with bootstrap samples of the survey data.  Bootstrap data sets for each of the annual surveys respected the stratified random designs by resampling with replacement within each stratum \citep{smith97}. For each of the 1000 combined bootstraps, survey observations for bootstrap $b$ were scaled with the corresponding bootstrap estimates of relative cookie sweep to rockhopper sweep efficiency and predicted weight at length, using Eqs. \ref{Nal_estimate} and \ref{biomass_estimate}.
+
+\section*{Results}
+
+\subsection*{Winter flounder}
+
+As measured by AIC, the best performing model for winter flounder before considering day/night effects was the conditional binomial model BI$_4$ (Table \ref{models_table_winter}). Allowing smooth size-effects on relative catch efficiency and variation in these effects among paired-tows provided primary improvements in model performance. Including diel effects on relative efficiency for the twin-trawl observations improved performance of the binomial model (BI$_5$), however the model allowing the size effects on relative efficiency to differ between day and night (BI$_6$) would not converge. The relative efficiency of the chain sweep gear to the rockhopper sweep gear is greatest at the smallest sizes of winter flounder, but is fairly constant over over sizes greater than 25 cm. The minimum relative efficency is between 1.5 and 2 during the day, but efficiencies of the two sweeps are approximately equal efficiency at night (Figure \ref{combined_rhos_winter}). 
+
+Stock-specific biomass estimates from 2009 to 2019 for the NEFSC spring and fall survey were variable. Georges Bank winter flounder biomass estimates range between 1800 and 9400 mt in the spring and 3000 and 24,000 mt in the fall and are lower in recent years than those in the early years (Figure \ref{gb_winter_flounder_biomass} and Table \ref{biomass_table_winter}). However, we note that the estimates of biomass made here were determined in the 2019 assessment to be problematic because of the larger sizes that predominate in the Georges Bank stock area than other stock areas and the low number of observations in the chainsweep study of these larger individuals \citep{nefsc2020}. Gulf of Maine winter flounder biomass estimates are constrained to the segment of the population at least 30 cm in length. The spring biomass estimates have been fairly stable ranging between 900 and 2700 mt whereas the fall estimates were greater at the beginning of the time series than recent years and range between 1900 and 4300 mt (Figure \ref{gom_winter_flounder_biomass} and Table \ref{biomass_table_winter}). Southern New England winter flounder biomass estimates are also lower in recent years than the beginning of the time series for both seasons and spring and fall estimates range from 1300 to 8500 mt and 2100 to 47,500 mt, respectively (Figure \ref{sne_winter_flounder_biomass} and Table \ref{biomass_table_winter}).
+
+The efficiency of the rockhopper gear relative to the chainsweep in terms of biomass changes from year to year due primarily to corresponding changes in the estimated numbers at length (Table \ref{biomass_efficiencies_winter}). Annual biomass relative efficiency for Georges Bank winter flounder varied between 0.55 and 0.79 in the spring and 0.61 and 0.92 in the fall. Relative efficiencies for the Gulf of Maine stock range between 0.54 and 0.70 for the spring and 0.63 and 0.88 in the fall. Relative efficiencies for the Southern New England stock range between 0.64 and 0.91 for the spring and 0.60 and 1.0 for the fall.
+
+Because the length-weight relationship which is used with the numbers at length to estimate biomass is estimated by survey and year there is a possibility that poor sampling in a given year could adversely affect the biomass estimates.  We therefore calculated the ratios of the annual uncalibrated biomass estimates using just the aggregate catch data to the biomass estimates made using the numbers at length and estimated weight at length (i.e., Eqs. \ref{Nal_estimate} and \ref{biomass_estimate} without the relative efficiency at size). These ratios should be approximately 1. The ratios for all years and seasons for all three stocks of winter flounder varied from 0.94 to 1.04 (Table \ref{biomass_ratios_winter}).
+
+\subsection*{Windowpane flounder}
+
+As measured by AIC, the best performing model for windowpane flounder before considering day/night effects was the conditional binomial model BI$_4$ (Table \ref{models_table_windowpane}). Allowing smooth size-effects on relative catch efficiency and variation in these effects among paired-tows provided primary improvements in model performance. Including diel effects on relative efficiency at size for the twin-trawl observations improved performance of the binomial model (BI$_6$). The relative efficiency of the chain sweep gear to the rockhopper sweep gear decreases with size of windowpane flounder. The minimum relative efficiency is between 4.5 and 21 during the day, and between 1.8 and 2.9 at night (Figure \ref{combined_rhos_windowpane}). 
+
+Stock-specific biomass estimates from 2009 to 2019 for the NEFSC spring and fall survey were variable. Georges Bank-Gulf of Maine windowpane flounder biomass estimates range between 3000 and 20,300 mt in the spring and 4700 and 18,300 mt in the fall and are lower in recent years than those in the early years (Figure \ref{gbgom_windowpane_biomass} and Table \ref{biomass_table_windowpane}). Southern New England-Mid-Atlantic Bight windowpane flounder biomass estimates in the spring ranged between 7300 and 15,600 mt whereas the fall estimates ranged between 7300 and 14,700 mt (Figure \ref{snemab_windowpane_biomass} and Table \ref{biomass_table_windowpane}).
+
+The efficiency of the rockhopper gear relative to the chainsweep in terms of biomass changes from year to year due primarily to corresponding changes in the estimated numbers at length (Table \ref{biomass_efficiencies_windowpane}). Annual biomass relative efficiency for Georges Bank-Gulf of Maine windowpane flounder varied between 0.21 and 0.36 in the spring and 0.19 and 0.42 in the fall. Relative efficiencies for the Southern New England-Mid-Atlantic Bight stock ranged between 0.22 and 0.36 for the spring and 0.26 and 0.35 in the fall.
+
+Because the length-weight relationship which is used with the numbers at length to estimate biomass is estimated by survey and year there is a possibility that poor sampling in a given year could adversely affect the biomass estimates.  We therefore calculated the ratios of the annual uncalibrated biomass estimates using just the aggregate catch data to the biomass estimates made using the numbers at length and estimated weight at length (i.e., Eqs. \ref{Nal_estimate} and \ref{biomass_estimate} without the relative efficiency at size). These ratios should be approximately 1. The ratios for all years and seasons for both stocks of windowpane flounder varied from 0.97 to 1.04 (Table \ref{biomass_ratios_windowpane}).
+
+\subsection*{Red hake}
+
+For red hake, the best performing model before considering day/night effects was the conditional beta-binomial model BB$_6$ (Table \ref{models_table_redhake}). The best beta-binomial model had an AIC more than 13 units lower than the best binomial model. Allowing variation in smooth size-effects on relative catch efficiency among paired-tows and extra-binomial variation withing paired-tows  (overdispersion via the beta-binomial assumption) provided primary improvements in model performance. Including diel effects on relative efficiency for the twin-trawl observations improved performance of the beta-binomial model. Initially separate smooth size effects for day and night tows were considered for the beta-binomial model (BB$_8$), but the correlation of non-smoother related random effects across stations was not estimable. Those random effects were therefore assumed uncorrelated (BB$_9$). Allowing different smooth size effects of relative efficiency for day and night observations was considerd (BB$_{10}$), but it did not improve model performance. The relative efficiency of the chain sweep gear to the rockhopper sweep gear generally declines with increased size whether the tow occurred during day or night, but the increase in efficiency of the chainsweep was generally greater for tows occuring during the day (Figure \ref{combined_rhos_redhake}).
+
+Stock-specific trends in annual biomass estimates from 2009 to 2019 for the NEFSC spring and fall survey were generally the same. For northern red hake both the spring and fall biomass estimates increased in 2014 and have remained higher than previous years (Figure \ref{north_red_hake_biomass} and Table \ref{biomass_table_redhake}). The scale of the biomass estimates is also similar for the spring and fall surveys. For southern red hake, the spring biomass generally declined until 2017 and then has increased for the last two years whereas the fall biomass has remained relatively stable (Figure \ref{south_red_hake_biomass} and Table \ref{biomass_table_redhake}). 
+
+The efficiency of the rockhopper gear relative to the chainsweep in terms of biomass changes from year to year due primarily to corresponding changes in the estimated numbers at length (Table \ref{biomass_efficiencies_redhake}). Annual biomass relative efficiency for northern red hake varied between 0.19 and 0.25 in the spring and 0.21 and 0.33 in the fall. Values range between 0.15 and 0.26 for the spring and 0.19 and 0.39 in the fall for southern red hake. 
+
+Because the length-weight relationship which is used with the numbers at length to estimate biomass is estimated by survey and year there is a possibility that poor sampling in a given year could adversely affect the biomass estimates.  We therefore calculated the ratios of the annual uncalibrated biomass estimates using just the aggregate catch data to the biomass estimates made using the numbers at length and estimated weight at length (i.e., Eqs. \ref{Nal_estimate} and \ref{biomass_estimate} without the relative efficiency at size). These ratios should be approximately 1. The ratios for all years and seasons for both northern and southern red hake varied from 0.96 to 1.04 (Table \ref{biomass_ratios_redhake}).
+
+
+\bibliography{wp_0820}
+\bibliographystyle{/home/tmiller2/work/bibliographies/cjfas2}
+
+\clearpage
+
+\begin{figure}
+\caption{Diagram of the standard Northeast Fisheries Science Center rockhopper sweep center and wing sections.}\label{rockhopper_schematic}
+\begin{center}
+\includegraphics[width = 0.7\textwidth]{rockhopper_schematic_1.pdf}
+\includegraphics[width = 0.7\textwidth]{rockhopper_schematic_2.pdf}
+\end{center}
+\end{figure}
+\clearpage
+
+\begin{figure}
+\caption{Diagram of the chain sweep designed maximize bottom contact and flatfish capture.}\label{chainsweep_schematic}
+\begin{center}
+\includegraphics[width = \textwidth]{chainsweep_schematic.pdf}
+\end{center}
+\end{figure}
+\clearpage
+
+\begin{figure}
+\caption{Locations of stations in 2015 where the F/V Karen Elizabeth conducted twin-trawl sets with the standard bottom trawl gear and the gear with a chain sweep instead of the rockhopper sweep.}\label{2015_tow_locations}
+\begin{center}
+\includegraphics[width = \textwidth]{2015_tow_locations.png}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\caption{Locations of stations in 2016 where the F/V Karen Elizabeth conducted twin-trawl sets with the standard bottom trawl gear and the gear with a chain sweep instead of the rockhopper sweep.}\label{2016_tow_locations}
+\begin{center}
+\includegraphics[width = \textwidth]{2016_tow_locations.png}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\caption{Locations of stations in 2017 where the F/V Karen Elizabeth conducted twin-trawl sets with the standard bottom trawl gear and the gear with a chain sweep instead of the rockhopper sweep.}\label{2017_tow_locations}
+\begin{center}
+\includegraphics[width = \textwidth]{2017_tow_locations.png}
+\end{center}
+\end{figure}
+
+\begin{landscape}
+
+\begin{figure}
+\caption{Estimated relative catch efficiency of winter flounder from the best model (BI$_5$). Black and grey lines are for mean and tow-specific relative catch efficiencies, respectively. Gray polygons and dashed red lines reflect 95\% confidence intervals using derived from delta method-based variance estimates and bootstrap quantiles, respectively.}\label{combined_rhos_winter}
+\begin{center}
+\includegraphics[width = 1.5\textwidth]{/home/tmiller2/work/paired_tow_studies/R/2020/winter_flounder/winter_flounder_bi5_rho_1_2.png}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\caption{Estimated relative catch efficiency of windowpane flounder from the best model (BI$_6$). Black and grey lines are for mean and tow-specific relative catch efficiencies, respectively. Gray polygons and dashed red lines reflect 95\% confidence intervals using derived from delta method-based variance estimates and bootstrap quantiles, respectively.}\label{combined_rhos_windowpane}
+\begin{center}
+\includegraphics[width = 1.5\textwidth]{/home/tmiller2/work/paired_tow_studies/R/2020/windowpane/windowpane_bi6_rho_1_2.png}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\caption{Estimated relative catch efficiency of red hake from the best model (BB$_9$). Black and grey lines are for mean and tow-specific relative catch efficiencies, respectively. Gray polygons and dashed red lines reflect 95\% confidence intervals using derived from delta method-based variance estimates and bootstrap quantiles, respectively.}\label{combined_rhos_redhake}
+\begin{center}
+\includegraphics[width = 1.5\textwidth]{/home/tmiller2/work/paired_tow_studies/R/2020/red_hake/red_hake_bb9_rho_1_2.png}
+\end{center}
+\end{figure}
+\end{landscape}
+
+\begin{figure}
+\caption{Estimated annual chain sweep-based biomass of Georges Bank winter flounder during the fall and spring surveys between 2009 and 2019. Estimates use relative catch efficiency from the best model (BI$_5$). Gray polygons reflect 95\% confidence intervals derived from bootstrap quantiles.}\label{gb_winter_flounder_biomass}
+\begin{center}
+\includegraphics[width = 0.9\textwidth]{/home/tmiller2/work/paired_tow_studies/R/2020/winter_flounder/gb_winter_flounder_biomass.png}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\caption{Estimated annual chain sweep-based biomass of Gulf of Maine winter flounder ($\geq$ 30 cm) during the fall and spring surveys between 2009 and 2019. Estimates use relative catch efficiency from the best model (BI$_5$). Gray polygons reflect 95\% confidence intervals derived from bootstrap quantiles.}\label{gom_winter_flounder_biomass}
+\begin{center}
+\includegraphics[width = 0.9\textwidth]{/home/tmiller2/work/paired_tow_studies/R/2020/winter_flounder/gom_winter_flounder_biomass.png}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\caption{Estimated annual chain sweep-based biomass of Southern New England winter flounder during the fall and spring surveys between 2009 and 2019. Estimates use relative catch efficiency from the best model (BI$_5$). Gray polygons reflect 95\% confidence intervals derived from bootstrap quantiles.}\label{sne_winter_flounder_biomass}
+\begin{center}
+\includegraphics[width = 0.9\textwidth]{/home/tmiller2/work/paired_tow_studies/R/2020/winter_flounder/sne_winter_flounder_biomass.png}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\caption{Estimated annual chain sweep-based biomass of Georges Bank-Gulf of Maine windowpane flounder during the fall and spring surveys between 2009 and 2019. Estimates use relative catch efficiency from the best model (BI$_6$). Gray polygons reflect 95\% confidence intervals derived from bootstrap quantiles.}\label{gbgom_windowpane_biomass}
+\begin{center}
+\includegraphics[width = 0.9\textwidth]{/home/tmiller2/work/paired_tow_studies/R/2020/windowpane/gbgom_windowpane_biomass.png}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\caption{Estimated annual chain sweep-based biomass of Southern New England-Mid-Atlantic Bight windowpane flounder during the fall and spring surveys between 2009 and 2019. Estimates use relative catch efficiency from the best model (BI$_6$). Gray polygons reflect 95\% confidence intervals derived from bootstrap quantiles.}\label{snemab_windowpane_biomass}
+\begin{center}
+\includegraphics[width = 0.9\textwidth]{/home/tmiller2/work/paired_tow_studies/R/2020/windowpane/snemab_windowpane_biomass.png}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\caption{Estimated annual chain sweep-based biomass of northern red hake during the fall and spring surveys between 2009 and 2019. Estimates use relative catch efficiency from the best model (BB$_9$). Gray polygons reflect 95\% confidence intervals derived from bootstrap quantiles.}\label{north_red_hake_biomass}
+\begin{center}
+\includegraphics[width = 0.9\textwidth]{/home/tmiller2/work/paired_tow_studies/R/2020/red_hake/north_red_hake_biomass.png}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\caption{Estimated annual chain sweep-based biomass of southern red hake during the fall and spring surveys between 2009 and 2019. Estimates use relative catch efficiency from the best model (BB$_9$). Gray polygons reflect 95\% confidence intervals derived from bootstrap quantiles.}\label{south_red_hake_biomass}
+\begin{center}
+\includegraphics[width = 0.9\textwidth]{/home/tmiller2/work/paired_tow_studies/R/2020/red_hake/south_red_hake_biomass.png}
+\end{center}
+\end{figure}
+
+
+
+%\begin{table}\caption{Number of twin-trawl tows conducted where each species was caught during the day, night, and in total.}\label{nobs_table}
+%\input{nobs_table}
+%\end{table}
+
+\begin{landscape}
+\begin{table}\caption{Description of relative catch efficiency ($\rho$) and dispersion ($\phi$) parameterizations for conditional binomial and beta-binomial models and corresponding maximized marginal log-likelihood, number of fixed effects parameters ($P$) and $\Delta$AIC for winter flounder.}\label{models_table_winter}
+{\Little  \input{../../R/2020/winter_flounder/models_table}}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+\begin{table}\caption{Description of relative catch efficiency ($\rho$) and dispersion ($\phi$) parameterizations for conditional binomial and beta-binomial models and corresponding maximized marginal log-likelihood, number of fixed effects parameters ($P$) and $\Delta$AIC for windowpane flounder.}\label{models_table_windowpane}
+{\Little  \input{../../R/2020/windowpane/models_table}}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+\begin{table}\caption{Description of relative catch efficiency ($\rho$) and dispersion ($\phi$) parameterizations for conditional binomial and beta-binomial models and corresponding maximized marginal log-likelihood, number of fixed effects parameters ($P$) and $\Delta$AIC for red hake.}\label{models_table_redhake}
+{\Little  \input{../../R/2020/red_hake/models_table}}
+\end{table}
+\end{landscape}
+
+\begin{table}
+\begin{center}
+\caption{Estimated chain sweep swept area seasonal survey biomass (mt) for winter flounder stocks between 2009 and 2019 using relative efficiency estimates from the best performing model (BI$_5$). Gulf of Maine winter flounder estimates are for individuals $\geq$ 30 cm.}\label{biomass_table_winter}
+{\input{../../R/2020/winter_flounder/biomass_estimates.tex}}
+\end{center}
+\end{table}
+
+\begin{table}
+\begin{center}
+\caption{Estimated chain sweep swept area seasonal survey biomass (mt) for windowpane flounder stocks between 2009 and 2019 using relative efficiency estimates from the best performing model (BI$_6$).}\label{biomass_table_windowpane}
+{\input{../../R/2020/windowpane/biomass_estimates.tex}}
+\end{center}
+\end{table}
+
+\begin{table}
+\begin{center}
+\caption{Estimated chain sweep swept area seasonal survey biomass (mt) for red hake stocks between 2009 and 2019 using relative efficiency estimates from the best performing model (BB$_8$).}\label{biomass_table_redhake}
+{\input{../../R/2020/red_hake/biomass_estimates.tex}}
+\end{center}
+\end{table}
+
+\begin{table}
+\begin{center}
+\caption{Implicit annual and seasonal efficiencies of unconverted swept area biomass estimates as measured by the ratio to the chainsweep-based estimates for winter flounder stocks in Table \ref{biomass_table_winter}.}\label{biomass_efficiencies_winter}
+{\input{../../R/2020/winter_flounder/biomass_efficiency_gom_all.tex}}
+\end{center}
+\end{table}
+
+\begin{table}
+\begin{center}
+\caption{Implicit annual and seasonal efficiencies of unconverted swept area biomass estimates as measured by the ratio to the chainsweep-based estimates for windowpane flounder stocks in Table \ref{biomass_table_windowpane}.}\label{biomass_efficiencies_windowpane}
+{\input{../../R/2020/windowpane/biomass_efficiency.tex}}
+\end{center}
+\end{table}
+
+\begin{table}
+\begin{center}
+\caption{Implicit annual and seasonal efficiencies of unconverted swept area biomass estimates as measured by the ratio to the chainsweep-based estimates for red hake stocks in Table \ref{biomass_table_redhake}.}\label{biomass_efficiencies_redhake}
+{\input{../../R/2020/red_hake/biomass_efficiency.tex}}
+\end{center}
+\end{table}
+
+\begin{table}
+\begin{center}
+\caption{Ratios of annual and seasonal unconverted biomass estimates made using numbers at length and estimated weight at length to those using the aggregate catch (kg) per tow observations for winter flounder stocks.}\label{biomass_ratios_winter}
+{\input{../../R/2020/winter_flounder/biomass_ratios_gom_all.tex}}
+\end{center}
+\end{table}
+
+\begin{table}
+\begin{center}
+\caption{Ratios of annual and seasonal unconverted biomass estimates made using numbers at length and estimated weight at length to those using the aggregate catch (kg) per tow observations for windowpane flounder stocks.}\label{biomass_ratios_windowpane}
+{\input{../../R/2020/windowpane/biomass_ratios.tex}}
+\end{center}
+\end{table}
+
+\begin{table}
+\begin{center}
+\caption{Ratios of annual and seasonal unconverted biomass estimates made using numbers at length and estimated weight at length to those using the aggregate catch (kg) per tow observations for red hake stocks.}\label{biomass_ratios_redhake}
+{\input{../../R/2020/red_hake/biomass_ratios.tex}}
+\end{center}
+\end{table}
+
+\end{document}
