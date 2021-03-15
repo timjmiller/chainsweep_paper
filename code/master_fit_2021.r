@@ -24,6 +24,7 @@ x$NSTOCKS = c(1,1,2,3,3,1,2,1,1,2,2)
 x$sp.names = c("fluke", "plaice", "windowpane", "winter_flounder", "yellowtail_flounder", "witch_flounder", "goosefish", "barndoor", "thorny", "red_hake", "cod")
 x$sp.pretty.names = capitalize(tolower(x$COMNAME))
 sp.info = x
+saveRDS(sp.info, file = paste0("data/sp.info.RDS"))
 
 system(paste0("mkdir ", parentdir, "/results/big_results"))
 
