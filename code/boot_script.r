@@ -5,7 +5,6 @@ parentdir = getwd()
 library(methods)
 library(TMB)
 library(mgcv)
-library(Hmisc)
 dyn.load(dynlib(paste0(parentdir,"/code/binom_gamm_nsmooth")))
 dyn.load(dynlib(paste0(parentdir,"/code/betabin_gamm_nsmooth")))
 source(paste0(parentdir,"/code/estimate.binom.gamm.nsmooth.r"))
@@ -13,14 +12,7 @@ source(paste0(parentdir,"/code/estimate.betabin.gamm.nsmooth.r"))
 source(paste0(parentdir,"/code/bootstrap.cl.less.r"))
 source(paste0(parentdir,"/code/fit_tmb.R"))
 
-x = read.csv(paste0(parentdir, "/data/spp_list.csv"))
-x = x[which(x$NSTATIONS>30 & !(x$COMNAME %in% c("FOURSPOT FLOUNDER", "GULF STREAM FLOUNDER"))),]
-spps = c(103, 102, 108, 106, 105, 107, 197, 22, 28, 77, 73)
-x = x[match(spps,x$SVSPP),]
-x$NSTOCKS = c(1,1,2,3,3,1,2,1,1,2,2)
-x$sp.names = c("fluke", "plaice", "windowpane", "winter_flounder", "yellowtail_flounder", "witch_flounder", "goosefish", "barndoor", "thorny", "red_hake", "cod")
-x$sp.pretty.names = capitalize(tolower(x$COMNAME))
-sp.info = x
+sp.info = readRDS("data/sp.info.RDS")
 
 set.seed(as.integer(args[1]))
 n = as.integer(args[2])
