@@ -1,5 +1,5 @@
-trac.biomass.1.fn = function(fall.lendat = all.fall.lendat[[7]], spring.lendat = all.spring.lendat[[8]], dfo.lendat = all.dfo.lendat[[7]],
-  fall.lw.dat, spring.lw.dat, dfo.lw.dat, pred.eta, nefsc.str.size, dfo.str.size, include.fall=TRUE, include.spring = TRUE, include.dfo = TRUE, lengths = 1:50)
+trac.biomass.dn.fn = function(fall.lendat = all.fall.lendat[[7]], spring.lendat = all.spring.lendat[[8]], dfo.lendat = all.dfo.lendat[[7]],
+  fall.lw.dat, spring.lw.dat, dfo.lw.dat, pred.eta.night, pred.eta.day, nefsc.str.size, dfo.str.size, include.fall=TRUE, include.spring = TRUE, include.dfo = TRUE, lengths = 1:50)
 {
   #source("get.survey.Nal.hat.fn.r")
   #source("get.dfo.survey.Nal.hat.fn.r")  
@@ -10,8 +10,10 @@ trac.biomass.1.fn = function(fall.lendat = all.fall.lendat[[7]], spring.lendat =
     calib.fall.lendat = fall.lendat
     for(i in lengths) 
     {
-      ind = which(calib.fall.lendat$LENGTH == i)
-      calib.fall.lendat$EXPNUMLEN[ind] = exp(pred.eta[which(lengths== i)])*calib.fall.lendat$EXPNUMLEN[ind] #change rockhopper night to chainsweep night
+      ind = which(calib.fall.lendat$LENGTH == i & calib.fall.lendat$day.night == "night")
+      calib.fall.lendat$EXPNUMLEN[ind] = exp(pred.eta.night[which(lengths== i)])*calib.fall.lendat$EXPNUMLEN[ind] #change rockhopper night to chainsweep night
+      ind = which(calib.fall.lendat$LENGTH == i & calib.fall.lendat$day.night == "day")
+      calib.fall.lendat$EXPNUMLEN[ind] = exp(pred.eta.day[which(lengths== i)])*calib.fall.lendat$EXPNUMLEN[ind] #change rockhopper day to chainsweep day
     }
     out$cal.fall.Nal = get.survey.Nal.hat.fn(len.data = calib.fall.lendat, str.size = nefsc.str.size, lengths = lengths)$Nal.hat
     out$fall.Nal = get.survey.Nal.hat.fn(len.data = fall.lendat, str.size = nefsc.str.size, lengths = lengths)$Nal.hat
@@ -30,8 +32,10 @@ trac.biomass.1.fn = function(fall.lendat = all.fall.lendat[[7]], spring.lendat =
     calib.spring.lendat = spring.lendat
     for(i in lengths) 
     {
-      ind = which(calib.spring.lendat$LENGTH == i)
-      calib.spring.lendat$EXPNUMLEN[ind] = exp(pred.eta[which(lengths== i)])*calib.spring.lendat$EXPNUMLEN[ind] #change rockhopper night to chainsweep night
+      ind = which(calib.spring.lendat$LENGTH == i & calib.spring.lendat$day.night == "night")
+      calib.spring.lendat$EXPNUMLEN[ind] = exp(pred.eta.night[which(lengths== i)])*calib.spring.lendat$EXPNUMLEN[ind] #change rockhopper night to chainsweep night
+      ind = which(calib.spring.lendat$LENGTH == i & calib.spring.lendat$day.night == "day")
+      calib.spring.lendat$EXPNUMLEN[ind] = exp(pred.eta.day[which(lengths== i)])*calib.spring.lendat$EXPNUMLEN[ind] #change rockhopper day to chainsweep day
     }
     out$cal.spring.Nal = get.survey.Nal.hat.fn(len.data = calib.spring.lendat, str.size = nefsc.str.size, lengths = lengths)$Nal.hat
     out$spring.Nal = get.survey.Nal.hat.fn(len.data = spring.lendat, str.size = nefsc.str.size, lengths = lengths)$Nal.hat
@@ -65,11 +69,13 @@ trac.biomass.1.fn = function(fall.lendat = all.fall.lendat[[7]], spring.lendat =
     for(i in lengths) 
     {
       ind = length.cols[which(lengths.present == i)]
-      if(length(ind)) calib.dfo.lendat[,ind] = exp(pred.eta[which(lengths== i)])*calib.dfo.lendat[,ind] #change rockhopper night to chainsweep night
+      ind2 = which(calib.dfo.lendat$day.night == 'night')
+      if(length(ind)) calib.dfo.lendat[ind2,ind] = exp(pred.eta.night[which(lengths== i)])*calib.dfo.lendat[ind2,ind] #change rockhopper night to chainsweep night
+      ind2 = which(calib.dfo.lendat$day.night == 'day')
+      if(length(ind)) calib.dfo.lendat[ind2,ind] = exp(pred.eta.day[which(lengths== i)])*calib.dfo.lendat[ind2,ind] #change rockhopper night to chainsweep night
     }
     out$cal.dfo.Nal = get.dfo.survey.Nal.hat.fn(lengths, str.size = dfo.str.size, cal.dat = calib.dfo.lendat)$Nal.hat
     out$dfo.Nal = get.dfo.survey.Nal.hat.fn(lengths, str.size = dfo.str.size, cal.dat = dfo.lendat)$Nal.hat
-    dfo.lw.dat = dfo.lw.dat[sample(1:NROW(dfo.lw.dat), size = NROW(dfo.lw.dat), replace = TRUE),]
     dat = list(wal = dfo.lw.dat$INDWT, lens = dfo.lw.dat$LENGTH, pred_lens = lengths)
     lwmod = MakeADFun(dat, par = list(lw_pars = c(0,0,0)), DLL="wal", silent = TRUE)
     lwmod.opt = nlminb(lwmod$par,lwmod$fn,lwmod$gr)

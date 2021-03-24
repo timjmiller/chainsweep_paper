@@ -2,34 +2,36 @@
 #home0/pdy/pub/STOCKEFF/ADIOS/ADIOS_SV/website/webfiles
 #rsync -arvxu saturn.nefsc.noaa.gov:/home0/pdy/pub/STOCKEFF/ADIOS/ADIOS_SV/website/webfiles ~/work/paired_tow_studies/R
 
-parentdir = getwd() #main repo directory
+source("code/get.best.r")
+source("code/survey/estimate_biomass.r")
+source("code/survey/trac.biomass.dn.fn.r")
+source("code/survey/get.survey.Nal.hat.fn.r")
+load("data/survey/stock.strata.RData")
+
+parentdir = getwd() #main repo directory, exists in stock.strata.RData for the server so need to make sure to use the right one.
 setwd("code/survey")
 library(TMB)
 compile("wal.cpp")
 dyn.load(dynlib("wal"))
 setwd(parentdir)
-source(paste0(parentdir, "/code/get.best.r"))
-load(paste0(parentdir,"/data/survey/stock.strata.RData"))
-source(paste0(parentdir, "/code/survey/estimate_biomass.r")
 
-file.name.prefix = paste0(parentdir, "/results/"
+file.name.prefix = paste0(parentdir, "/results/")
 survey.years = 2009:2019
+x = rep(1:NROW(sp.info), sp.info$NSTOCKS)
 
 #make estimates of biomass and numbers at length by converting from rockhopper to chainsweep gear.
 for(i in 1:length(x))
 {
   print(stocks[i])
-  sole <- odbcConnect(dsn="sole", uid=creds[1], pwd=creds[2], believeNRows=FALSE) 
   #30+ biomass for GOM winter flounder
-  if(stocks[i] == "gom_winter_flounder") estimate_biomass(sp.i = x[i], stock.i = i, sp.info, do.lendat = TRUE, do.lw.dat = TRUE, do.N.W = TRUE, 
-	years = survey.years, filename.mod = file.name.prefix, min.length.calibrate = 30)
+  twintrawl.res = readRDS(paste0("results/big_results/", sp.info$sp.names[x[i]], "_model_fits.RDS"))
+  if(stocks[i] == "gom_winter_flounder") estimate_biomass(sp.i = x[i], stock.i = i, sp.info, twintrawl.res, 
+    years = survey.years, filename.mod = file.name.prefix, min.length.calibrate = 30, pdir = parentdir)
 	 #goosefish uses different TOGA definition
-  if(stocks[i] %in% c("north_goose", "south_goose")) estimate_biomass(sp.i = x[i], stock.i = i, sp.info, do.lendat = TRUE, do.lw.dat = TRUE, do.N.W = TRUE, 
-	years = survey.years, filename.mod = file.name.prefix,  TOGA.operation = 2) 
-  if(!(stocks[i] %in% c("gom_winter_flounder", "north_goose", "south_goose"))) estimate_biomass(sp.i = x[i], stock.i = i, sp.info, do.lendat = TRUE, do.lw.dat = TRUE, do.N.W = TRUE, 
-	years = survey.years, filename.mod = file.name.prefix)
-  setwd(parentdir)
-  odbcCloseAll()
+  if(stocks[i] %in% c("north_goose", "south_goose")) estimate_biomass(sp.i = x[i], stock.i = i, sp.info, twintrawl.res, 
+    years = survey.years, filename.mod = file.name.prefix,  TOGA.operation = 2, pdir = parentdir) 
+  if(!(stocks[i] %in% c("gom_winter_flounder", "north_goose", "south_goose"))) estimate_biomass(sp.i = x[i], stock.i = i, sp.info, twintrawl.res, 
+    years = survey.years, filename.mod = file.name.prefix, pdir = parentdir)
 }
 
 
