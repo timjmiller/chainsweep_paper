@@ -6,6 +6,9 @@ source("code/get.best.r")
 source("code/survey/estimate_biomass.r")
 source("code/survey/trac.biomass.dn.fn.r")
 source("code/survey/get.survey.Nal.hat.fn.r")
+source("code/survey/boot_biomass.r")
+source("code/survey/plot.biomass.fn.r")
+
 load("data/survey/stock.strata.RData")
 
 parentdir = getwd() #main repo directory, exists in stock.strata.RData for the server so need to make sure to use the right one.
@@ -42,19 +45,13 @@ for(i in 1:length(x))
 ##############################################
 
 #make the unix commands to run on venus. copy and paste from this file.
-fname = paste0(parentdir"bootstrap_biomass_commands.txt"
+fname = "code/survey/bootstrap_biomass_commands_shell.txt"
 write("#commands for bootstrapping biomass estimates on venus in corresponding directory.", file = fname, append = FALSE)
-x = rep(1:NROW(sp.info), sp.info$NSTOCKS)
 for(i in 1:length(x))
 {
-  for(d in 1:2) {
-    for(y in survey.years) {
-      write(paste0("Rscript --vanilla boot_biomass_2019_script.r 1000 ", x[i], " ", i, " ", y, " ", d, " 1 1 &"), file = fname, append = TRUE)
-    }
-    #fall not available yet for 2019
-    #write(paste0("Rscript --vanilla boot_biomass_2019_script.r 1000 ", x[i], " ", i, " ", 2019, " ", d, " 1 0 &"), file = fname, append = TRUE)
+  for(y in survey.years) {
+    write(paste0("Rscript --vanilla code/survey/boot_biomass_script.r 1000 ", x[i], " ", i, " ", y, " 1 1 &"), file = fname, append = TRUE)
   }
-  write("\n", file = fname, append = TRUE)
 }
 
 #push all info needed for bootstrapping to serveri
@@ -64,18 +61,13 @@ for(i in 1:length(x))
 #rsync -arvxu saturn.nefsc.noaa.gov:/home7/tmiller2/work/paired_tow_studies/R/2019 ~/work/paired_tow_studies/R
 
 #make summary files
-source("boot_biomass_2019.r")
 x = rep(1:NROW(sp.info), sp.info$NSTOCKS)
 for(i in 1:length(x)) {
-  boot_biomass(sp.i = x[i], stock.i = i, do.boot.biomass.1 = FALSE, do.boot.biomass.2 = FALSE, 
-    do.boot.1.res = TRUE, do.boot.2.res = TRUE, years = 2009:2019, n.boot = 1000, do.spring = TRUE,
-    do.fall = TRUE, summ.file.mod = "2019_")
+  boot_biomass(sp.i = x[i], stock.i = i, do.boot.biomass = FALSE, 
+    do.boot.res = TRUE, years = survey.years, n.boot = 1000, do.spring = TRUE,
+    do.fall = TRUE)
 }
-#parentdir = getwd()
 
-setwd(parentdir)
-load("stock.strata.RData")
-source("plot.biomass.fn.r")
 x = rep(1:NROW(sp.info), sp.info$NSTOCKS)
 for( i in 1:length(x)) plot.biomass.fn(i=x[i], sp.info, stock = stocks[i], use.stock.names[i], file.loc = "~/work/paired_tow_studies/R/2019")
 plot.biomass.fn(i=1, sp.info, stock = stocks[1], use.stock.names[1], file.loc = "~/work/paired_tow_studies/R/2019")
