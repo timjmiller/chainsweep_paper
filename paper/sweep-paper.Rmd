@@ -1,5 +1,5 @@
 ---
-title: 'Relative efficiency of a chain sweep and the rockhopper sweep used for bottom trawl surveys and biomass estimates for flatfish, red hake and goosefish stocks in Northwest Atlantic waters of the United States'
+title: 'Chainsweep-based efficiency of bottom trawl surveys and biomass estimates for flatfish, red hake, and goosefish stocks in Northwest Atlantic waters of the United States'
 author: "Timothy J. Miller^1^, David E. Richardson^2^, Andrew Jones^2^, Phil Politis^1^"
 date: ''
 output:
@@ -51,7 +51,7 @@ Using a general hierarchical model we estimated relative efficiency of chain swe
 
 ### Keywords {-}
 
-leatherback; habitat; movement; Continuous-time semi-Markov; environmental effects; GPS tags
+hieararchical models, spline regression, gear efficiency, abundance estimation
 
 \pagebreak
 
