@@ -1,0 +1,57 @@
+%latex.default(temp, file = paste0(parentdir, "/paper/best_model_compare.tex"),     rgroup = sp.info$sp.pretty.names[ind], n.rgroup = rep(3,         length(ind)), col.just = c("l", "l", "l", rep("r", 2)),     numeric.dollar = FALSE, cellTexCmds = cell.format, rowlabel = "",     rowname = rep("", NROW(temp)), table.env = FALSE)%
+\begin{center}
+\begin{tabular}{llllrr}
+\hline\hline
+\multicolumn{1}{l}{}&\multicolumn{1}{c}{Model}&\multicolumn{1}{c}{$\log\left(\rho\right)$}&\multicolumn{1}{c}{$\log\left(\phi\right)$}&\multicolumn{1}{c}{$n_p$}&\multicolumn{1}{c}{$\Delta$AIC}\tabularnewline
+\hline
+{\bfseries Summer flounder}&&&&&\tabularnewline
+   ~~&   BI$_{3}$&   $\sim$ s(length) + 1$|$pair&   --&    4&   22.92\tabularnewline
+   ~~&   BI$_{3a}$&   $\sim$ dn + s(length) + 1$|$pair&   --&    5&\bfseries   0\tabularnewline
+   ~~&   BI$_{3b}$&   $\sim$ dn * s(length) + 1$|$pair&   --&    7&   1.74\tabularnewline
+\hline
+{\bfseries American plaice}&&&&&\tabularnewline
+   ~~&   BB$_{7}$&   $\sim$ s(length) + s(length)$|$pair&   $\sim$ s(length)&   10&\bfseries   0\tabularnewline
+   ~~&   BB$_{7a}$&   $\sim$ dn + s(length) + s(length)$|$pair&   $\sim$ s(length)&   11&   1.43\tabularnewline
+   ~~&   BB$_{7b}$&   $\sim$ dn * s(length) + s(length)$|$pair&   $\sim$ s(length)&   13&   2.95\tabularnewline
+\hline
+{\bfseries Windowpane}&&&&&\tabularnewline
+   ~~&   BI$_{4}$&   $\sim$ s(length) + s(length)$|$pair&   --&    7&   152.1\tabularnewline
+   ~~&   BI$_{4a}$&   $\sim$ dn + length + s(length)$|$pair&   --&    7&   4.06\tabularnewline
+   ~~&   BI$_{4b}$&   $\sim$ dn * length + s(length)$|$pair&   --&    8&\bfseries   0\tabularnewline
+\hline
+{\bfseries Winter flounder}&&&&&\tabularnewline
+   ~~&   BI$_{4}$&   $\sim$ s(length) + s(length)$|$pair&   --&    7&   50.68\tabularnewline
+   ~~&   BI$_{4a}$&   $\sim$ dn + s(length) + length$|$pair&   --&    7&   0.3\tabularnewline
+   ~~&   BI$_{4b}$&   $\sim$ dn * s(length) + length$|$pair&   --&    9&\bfseries   0\tabularnewline
+\hline
+{\bfseries Yellowtail flounder}&&&&&\tabularnewline
+   ~~&   BB$_{6}$&   $\sim$ s(length) + s(length)$|$pair&   $\sim$ 1&    8&   3.84\tabularnewline
+   ~~&   BB$_{6a}$&   $\sim$ dn + s(length) + s(length)$|$pair&   $\sim$ 1&    9&\bfseries   0\tabularnewline
+   ~~&   BB$_{6b}$&   $\sim$ dn * s(length) + s(length)$|$pair&   $\sim$ 1&   11&   3.48\tabularnewline
+\hline
+{\bfseries Witch flounder}&&&&&\tabularnewline
+   ~~&   BB$_{6}$&   $\sim$ s(length) + s(length)$|$pair&   $\sim$ 1&    8&   19.68\tabularnewline
+   ~~&   BB$_{6a}$&   $\sim$ dn + length + s(length)$|$pair&   $\sim$ 1&    8&\bfseries   0\tabularnewline
+   ~~&   BB$_{6b}$&   $\sim$ dn * length + s(length)$|$pair&   $\sim$ 1&    9&   1.52\tabularnewline
+\hline
+{\bfseries Red hake}&&&&&\tabularnewline
+   ~~&   BB$_{6}$&   $\sim$ s(length) + s(length)$|$pair&   $\sim$ 1&    8&   32.35\tabularnewline
+   ~~&   BB$_{6a}$&   $\sim$ dn + s(length) + s(length)$|$pair&   $\sim$ 1&    8&\bfseries   0\tabularnewline
+   ~~&   BB$_{6b}$&   $\sim$ dn * s(length) + s(length)$|$pair&   $\sim$ 1&   10&   3.18\tabularnewline
+\hline
+{\bfseries Goosefish}&&&&&\tabularnewline
+   ~~&   BI$_{3}$&   $\sim$ s(length) + 1$|$pair&   --&    4&   5.44\tabularnewline
+   ~~&   BI$_{3a}$&   $\sim$ dn + s(length) + 1$|$pair&   --&    5&\bfseries   0\tabularnewline
+   ~~&   BI$_{3b}$&   $\sim$ dn * s(length) + 1$|$pair&   --&    7&   6.8\tabularnewline
+\hline
+{\bfseries Barndoor skate}&&&&&\tabularnewline
+   ~~&   BI$_{4}$&   $\sim$ s(length) + s(length)$|$pair&   --&    7&   15.57\tabularnewline
+   ~~&   BI$_{4a}$&   $\sim$ dn + length + length$|$pair&   --&    5&\bfseries   0\tabularnewline
+   ~~&   BI$_{4b}$&   $\sim$ dn * length + length$|$pair&   --&    6&   1.83\tabularnewline
+\hline
+{\bfseries Thorny skate}&&&&&\tabularnewline
+   ~~&   BB$_{6}$&   $\sim$ s(length) + s(length)$|$pair&   $\sim$ 1&    8&   15.51\tabularnewline
+   ~~&   BB$_{6a}$&   $\sim$ dn + length + length$|$pair&   $\sim$ 1&    7&\bfseries   0\tabularnewline
+   ~~&   BB$_{6b}$&   $\sim$ dn * length + length$|$pair&   $\sim$ 1&    8&   1.38\tabularnewline
+\hline
+\end{tabular}\end{center}

@@ -1,0 +1,21 @@
+%latex.default(out, file = paste0(parentdir, "/paper/base_model_description.tex"),     table.env = FALSE, col.just = c("l", "l", "l", "r", "p{0.5\\textwidth}"),     rowname = NULL)%
+\begin{center}
+\begin{tabular}{lllrp{0.5\textwidth}}
+\hline\hline
+\multicolumn{1}{c}{Model}&\multicolumn{1}{c}{$\log\left(\rho\right)$}&\multicolumn{1}{c}{$\log\left(\phi\right)$}&\multicolumn{1}{c}{$n_p$}&\multicolumn{1}{c}{Description}\tabularnewline
+\hline
+BI$_{0}$&$\sim$ 1&--&$ 1$&population-level mean for all observations\tabularnewline
+BI$_{1}$&$\sim$ 1 + 1$|$pair&--&$ 2$&population- and random station-level $\rho$\tabularnewline
+BI$_{2}$&$\sim$ s(length)&--&$ 3$&population-level smooth size effect on $\rho$\tabularnewline
+BI$_{3}$&$\sim$ s(length) + 1$|$pair&--&$ 4$&population-level smooth size effect and random station-level intercept for $\rho$\tabularnewline
+BI$_{4}$&$\sim$ s(length) + s(length)$|$pair&--&$ 7$&population-level and random station-level smooth size effects for $\rho$\tabularnewline
+BB$_{0}$&$\sim$ 1&$\sim$ 1&$ 2$&population-level $\rho$ and $\phi$\tabularnewline
+BB$_{1}$&$\sim$ 1 + 1$|$pair&$\sim$ 1&$ 3$&population-level and random station-level intercept for $\rho$ and population-level $\phi$\tabularnewline
+BB$_{2}$&$\sim$ s(length)&$\sim$ 1&$ 4$&population-level smooth size effect on $\rho$ and population-level $\phi$\tabularnewline
+BB$_{3}$&$\sim$ s(length)&$\sim$ s(length)&$ 6$&population-level smooth size effect on $\rho$ and $\phi$\tabularnewline
+BB$_{4}$&$\sim$ s(length) + 1$|$pair&$\sim$ 1&$ 5$&population-level smooth size effect and random station-level intercept for $\rho$ and population-level $\phi$\tabularnewline
+BB$_{5}$&$\sim$ s(length) + 1$|$pair&$\sim$ s(length)&$ 7$&population-level smooth size effect on $\rho$ and $\phi$ and random station-level intercepts for $\rho$\tabularnewline
+BB$_{6}$&$\sim$ s(length) + s(length)$|$pair&$\sim$ 1&$ 8$&population-level and random station-level smooth size effects on $\rho$ and population-level $\phi$\tabularnewline
+BB$_{7}$&$\sim$ s(length) + s(length)$|$pair&$\sim$ s(length)&$10$&population-level and random station-level smooth size effects on $\rho$ and population-level smooth size effects on $\phi$\tabularnewline
+\hline
+\end{tabular}\end{center}

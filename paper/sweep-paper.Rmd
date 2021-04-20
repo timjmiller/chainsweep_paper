@@ -6,19 +6,27 @@ output:
   pdf_document:
     fig_caption: yes
     includes:
-      in_header: options.sty
+      in_header: 
+        - options.sty
+        - journalshortcuts.tex
     keep_tex: yes
     number_sections: yes
+    citation_package: natbib
   html_document:
     df_print: paged
 csl: canadian-journal-of-fisheries-and-aquatic-sciences.csl
-bibliography: sweep-paper.bib
+biblio-style: cjfas2.bst
 header-includes:
+    - \usepackage{xspace}
     - \usepackage{bm}
     - \usepackage{caption,graphics}
     - \usepackage{graphicx}
     - \renewcommand\figurename{Fig.}
     - \captionsetup{labelsep=period, singlelinecheck=false}
+    - \newcommand{\changesize}[1]{\fontsize{#1pt}{#1pt}\selectfont}
+    - \renewcommand{\arraystretch}{1.5}
+
+
 
 ---
 
@@ -57,15 +65,18 @@ hieararchical models, spline regression, gear efficiency, abundance estimation
 
 # Introduction  
 
-Paired-gear studies have long been used to estimate the efficiency of one fishing gear relative to another (e.g., @gulland64;@bourne65).  These types of studies are critical for informing abundance time series from fishery independent surveys when there are changes in the vessel and(or) gears over time due to gear failures or improved technology. 
+Paired-gear studies have long been used to estimate the efficiency of one fishing gear relative to another \citep[e.g.,][]{gulland64,bourne65}.  These types of studies are critical for informing abundance time series from fishery independent surveys when there are changes in the vessel and(or) gears over time due to gear failures or improved technology. 
 
 In conducting paired-gear studies it is ideal to have the two gears deployed as close together spatially and temporally as possible to reduce variation between the gears in densities of the species being captured. One fishing method that approaches this ideal is the twin-trawl rigging where two trawls can be fished simultaneously [@ices96]. The basic methods we used here are based on those used by @miller13 to estimate size effects on relative catch efficiency of the Henry B. Bigelow to the Albatrosss IV. Similar approaches were used to make similar estimates for groundfish, TRAC stocks and summer flounder [@milleretal17a;@milleretal17b].  The methods here are the same as those used for red hake for the red hake research track assessments [@milleretal20].
+
+
+Importance of biomass or (catchability) efficiency estimates for both index-based methods as well as age-structured models with low contrast.
 
 # Methods
 
 ## Data collection
 
-Data were collected during three field experiments carried out in 2015, 2016, and 2017, respectively, aboard the F/V Karen Elizabeth, a 78ft stern trawler capable of towing two trawls simultaneously side by side. However, red hake were only observed during the 2017 field experiments. One side of the twin-trawl rig towed a NEFSC standard 400 x 12 cm survey bottom trawl rigged with the NEFSC standard rockhopper sweep [@politisetal14] (Figure \ref{rockhopper_schematic}). The other side of the twin-trawl rig towed a version the NEFSC 400 x 12cm survey bottom trawl modified to maximize the capture of flatfish. The trawl was modified by reducing the headline flotation from 66 to 32, 20cm, spherical floats, reducing the port and starboard top wing-end extensions by 50cm each and utilizing a chain sweep. The chain sweep was constructed of 1.6cm (5/8in) trawl chain covered by 12.7cm diameter x 1cm thick rubber discs on every other chain link (Figure \ref{chainsweep_schematic}). Two rows of 1.3cm (1/2in) tickler chains were attached to the 1.6cm trawl chain by 1.3cm shackles (Figure \ref{chainsweep_schematic}). To ensure equivalent net geometry of each gear, 32m restrictor ropes, made of 1.4cm (9/16in) buoyant, Polytron rope, were attached between each of the trawl doors and the center clump. 3.4m2 Thyboron Type 4 trawl doors were used to provide enough spreading force to ensure the restrictor ropes remained taut throughout each tow. Each trawl used the NEFSC standard 36.6m bridles. All tows followed the NEFSC standard survey towing protocols of 20 minutes at 3.0 knots. In 2015, 108 (45 day, 63 night) paired tows were conducted in eastern Georges Bank and off of southern New England (Figure \ref{2015_tow_locations}). In 2016, 117 (74 day, 43 night) paired tows were conducted in western Gulf of Maine and northern edge of Georges Bank (Figure \ref{2016_tow_locations}).  In 2017, 103 (61 day, 42 night) paired tows were conducted in waters off of southern New England (Figure \ref{2017_tow_locations}). Paired tows were denoted as ``day'' and ``night''  by whether the sun was above or below the horizon at the time of the tow. 
+Data were collected during three field experiments carried out in 2015, 2016, and 2017, respectively, aboard the F/V Karen Elizabeth, a 78ft stern trawler capable of towing two trawls simultaneously side by side. However, red hake were only observed during the 2017 field experiments. One side of the twin-trawl rig towed a NEFSC standard 400 x 12 cm survey bottom trawl rigged with the NEFSC standard rockhopper sweep [@politisetal14] (Figure \ref{rockhopper_schematic}). The other side of the twin-trawl rig towed a version the NEFSC 400 x 12cm survey bottom trawl modified to maximize the capture of flatfish. The trawl was modified by reducing the headline flotation from 66 to 32, 20cm, spherical floats, reducing the port and starboard top wing-end extensions by 50cm each and utilizing a chain sweep. The chain sweep was constructed of 1.6cm (5/8in) trawl chain covered by 12.7cm diameter x 1cm thick rubber discs on every other chain link (Figure \ref{chainsweep_schematic}). Two rows of 1.3cm (1/2in) tickler chains were attached to the 1.6cm trawl chain by 1.3cm shackles (Figure \ref{chainsweep_schematic}). To ensure equivalent net geometry of each gear, 32m restrictor ropes, made of 1.4cm (9/16in) buoyant, Polytron rope, were attached between each of the trawl doors and the center clump. 3.4m2 Thyboron Type 4 trawl doors were used to provide enough spreading force to ensure the restrictor ropes remained taut throughout each tow. Each trawl used the NEFSC standard 36.6m bridles. All tows followed the NEFSC standard survey towing protocols of 20 minutes at 3.0 knots. In 2015, 108 (45 day, 63 night) paired tows were conducted in eastern Georges Bank and off of southern New England (Figure \ref{2015_tow_locations}). In 2016, 117 (74 day, 43 night) paired tows were conducted in western Gulf of Maine and northern edge of Georges Bank (Figure \ref{2016_tow_locations}).  In 2017, 103 (61 day, 42 night) paired tows were conducted in waters off of southern New England (Figure \ref{2017_tow_locations}). Paired tows were denoted as "day" and "night"  by whether the sun was above or below the horizon at the time of the tow. 
 
 Winter flounder were caught in 171 paired tows (97 day, 74 night). Overall 6,449  winter flounder were measured for length. The subsampling fractions implied an estimated 6,586 winter flounder were captured across all paired tows. 3805 and 2644 length measurements were made for the chainsweep and rockhopper gears, respectively.  During the day, 2385 and 1220 winter flounder were measured in catches by the respective gears whereas during the night 1420 and 1424 were measured in catches by the respective gears.
 
@@ -76,6 +87,10 @@ Red hake were caught in 73 paired tows (40 day, 33 night). Overall 12,585  red h
 ## Paired-tow analysis
 
 We use the hierarchical modeling approach from @miller13 to estimate the relative efficiency of chain sweep to the rockhopper sweep used by the NEFSC bottom trawl survey for six species from three studies carried out aboard a twin trawl vessel. Aside from the sweeps the rest of the trawl gear is the same.  As in @miller13, we compared a set of models with different assumptions about variation of relative efficiency between paired gear tows, size effects on the relative efficiency, and extra-binomial variation of observations within paired gear tows. We began with the same 13 models considered by @miller13. Models BI$_1$ to BI$_4$ and BB$_1$ to BB$_8$ in Table \ref{models_table_winter} provides a descriptions of the models fitted for all species and pseudo-formulas comparable to those used for fitting models in R and the mgcv package [@R19;@wood06]. We then also included diel effects on relative catch efficiency and intereactions with size effects with the best performing model of the original 13 models for each species. For red hake, these are the same analyses provided in @milleretal20 and the new analyses for winter and windowpane flounder are analogous. The analyses here and in @milleretal20 are similar to those by @milleretal17a, @milleretal17b, and @milleretal18, but a more generalized model has been implemented that allows multiple smooth effects on relative catch efficiency so that models do not have to be fit separately to observations occurring during the day and night. Therefore, diel effects on relative catch efficiency and interactions with size effects can be considered while allowing other parameters to be the same for all observations. 
+
+If the best model included regression splines of length and smooth parameters estimated linear functions of length (on the transformed scale), then simpler linear models were assumed for further models that included diel effects on relative efficiency. One less parameter (smoothing parameter) for these models.
+
+Red hake: had to assume station-specific random effects that corresponded to the population-level fixed effects were uncorrelated because of convergence issues.
 
 ## Length-weight analysis
 
@@ -140,13 +155,17 @@ Because the length-weight relationship which is used with the numbers at length 
 
 # Discussion
 
+Compare greater or lesser smoothness within stations with Pedersen et al. 2019.
+
 
 # Acknowledgements {-}
 
 
 \pagebreak
 
-## References {-}
+\bibliography{sweep-paper}
+<!-- \bibliography{sweep-paper}
+\bibliographystyle{/home/tmiller2/work/bibliographies/cjfas2}  -->
 
 <div id="refs"></div>
 
@@ -188,3 +207,22 @@ Because the length-weight relationship which is used with the numbers at length 
 \includegraphics[width = \textwidth]{2017_tow_locations.png}
 \end{center}
 \end{figure}
+
+\begin{landscape}
+\begin{table}
+\caption{Description of relative catch efficiency ($\rho$) and beta-binomial dispersion ($\phi$) parameterizations for binomial and beta-binomial models and number of marginal likelihood parameters ($n_p$) for the 13 base models from \citet{miller13} and fit to paired chainsweep and rockhoppersweep tow data for each species.}\label{base_model_description}
+{\input{base_model_description}}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+\begin{table}\caption{Difference in AIC for each of the 13 models described in Table \ref{base_model_description} from the best model ($\bf 0$) by species.}\label{base_compare_models}
+{\input{base_model_compare}}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+\begin{table}\caption{Best performing models from Table \ref{base_compare_models} and extended models that include diel effects on relative catch efficiency for each species with the number of parameters for each model ($n_p$) and the differences in AIC ($\Delta$AIC) from the best of the three models ($\bf 0$) by species.}\label{best_compare_models}
+{\changesize{7}\input{best_model_compare}}
+\end{table}
+\end{landscape}
