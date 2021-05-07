@@ -64,6 +64,8 @@ colnames(aic.table)[1] = "No. parameters"
 write.csv(aic.table, file = paste0(parentdir,"/paper/model_compare.csv"))
 
 
+#done to here
+
 setwd(parentdir)
 source("make.nobs.table.fn.r")
 nobs.table = make.nobs.table.fn()

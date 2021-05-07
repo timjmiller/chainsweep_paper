@@ -21,10 +21,12 @@ header-includes:
     - \usepackage{bm}
     - \usepackage{caption,graphics}
     - \usepackage{graphicx}
+    - \usepackage{makecell}
     - \renewcommand\figurename{Fig.}
     - \captionsetup{labelsep=period, singlelinecheck=false}
     - \newcommand{\changesize}[1]{\fontsize{#1pt}{#1pt}\selectfont}
     - \renewcommand{\arraystretch}{1.5}
+    - \renewcommand\theadfont{}
 
 
 
@@ -126,6 +128,16 @@ To estimate uncertainty in biomass, we used bootstrap results for the relative c
 
 # Results
 
+## Summer flounder
+
+## American plaice
+
+## Yellowtail flounder
+
+## Witch flounder
+
+## Goosefish
+
 ## Winter flounder
 
 As measured by AIC, the best performing model for winter flounder before considering day/night effects was the conditional binomial model BI$_4$ (Table \ref{models_table_winter}). Allowing smooth size-effects on relative catch efficiency and variation in these effects among paired-tows provided primary improvements in model performance. Including diel effects on relative efficiency for the twin-trawl observations improved performance of the binomial model (BI$_5$), however the model allowing the size effects on relative efficiency to differ between day and night (BI$_6$) would not converge. The relative efficiency of the chain sweep gear to the rockhopper sweep gear is greatest at the smallest sizes of winter flounder, but is fairly constant over over sizes greater than 25 cm. The minimum relative efficency is between 1.5 and 2 during the day, but efficiencies of the two sweeps are approximately equal efficiency at night (Figure \ref{combined_rhos_winter}). 
@@ -159,7 +171,7 @@ Because the length-weight relationship which is used with the numbers at length 
 
 # Discussion
 
-Compare greater or lesser smoothness within stations with Pedersen et al. 2019.
+Compare greater or lesser smoothness within stations with Pedersen et al. 2019. We assume the same number of knots and order (derivatives for penalties) in the cubic regression splines for the population and station-level smoothers. Pedersen et al. also implicitly assume the random effects that correspond to the null space (intercept and fixe effects of the smoothers) are uncorrelated, but correlation in these models is estimated except for red hake where we found it to be inestimable. 
 
 
 # Acknowledgements {-}
@@ -212,10 +224,26 @@ Compare greater or lesser smoothness within stations with Pedersen et al. 2019.
 \end{center}
 \end{figure}
 
+\clearpage 
+
+\begin{figure}
+\caption{Relative efficiency  of gears using chain and rockhopper sweeps from the best performing model for each species (Table \ref{best_model_compare}). Blue and red denote results for day and night data, respectively, and points represent empirical estimates of relative efficiency for each paired observation by length and paired tow. Polygons and dashed lines represent asymptotic and bootstrap-based 95\% confidence intervals, respectively.}\label{sp_rho_plot}
+\begin{center}
+\includegraphics[height = 0.8\textheight]{sp_rho_plot.png}
+\end{center}
+\end{figure}
+
 \begin{landscape}
 \begin{table}
 \caption{Description of relative catch efficiency ($\rho$) and beta-binomial dispersion ($\phi$) parameterizations for binomial and beta-binomial models and number of marginal likelihood parameters ($n_p$) for the 13 base models from \citet{miller13} and fit to paired chainsweep and rockhoppersweep tow data for each species.}\label{base_model_description}
 {\input{base_model_description}}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+\begin{table}
+\caption{Number of paired tows where fish were captured and the number of fish captured and measured for lengths for each species in total and by day or night.}\label{data_table}
+{\changesize{10}\input{data_table}}
 \end{table}
 \end{landscape}
 
@@ -226,7 +254,7 @@ Compare greater or lesser smoothness within stations with Pedersen et al. 2019.
 \end{landscape}
 
 \begin{landscape}
-\begin{table}\caption{Best performing models from Table \ref{base_compare_models} and extended models that include diel effects on relative catch efficiency for each species with the number of parameters for each model ($n_p$) and the differences in AIC ($\Delta$AIC) from the best of the three models ($\bf 0$) by species.}\label{best_compare_models}
+\begin{table}\caption{Best performing models from Table \ref{base_compare_models} and extended models that include diel effects on relative catch efficiency for each species with the number of parameters for each model ($n_p$) and the differences in AIC ($\Delta$AIC) from the best of the three models ($\bf 0$) by species.}\label{best_model_compare}
 {\changesize{7}\input{best_model_compare}}
 \end{table}
 \end{landscape}

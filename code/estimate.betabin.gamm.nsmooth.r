@@ -133,7 +133,7 @@ estimate.betabin.gamm.nsmooth <- function(
       lp_station_smooth_re = mu.dat$lp_station_smooth_re-1, #because of C++
       Dplus_diag = mu.dat$Dplus_diag,
       Dplus_diag_station = mu.dat$Dplus_diag_re,
-      id_Dplus_diag_station = matrix(nrow = 0, ncol = 0), #because of C++
+      id_Dplus_diag_station = matrix(nrow = 0, ncol = 0),
       use_beta_re = use_beta_re,
       use_beta_re_cor = use_beta_re_cor,
       use_mean_smooth_re = use_mean_smooth_re,

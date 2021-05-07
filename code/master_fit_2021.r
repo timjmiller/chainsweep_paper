@@ -83,19 +83,19 @@ for(i in 1:NROW(sp.info))
   is.binom = grepl("bi", y$best.model)
   next.model = ifelse(is.binom, paste0("bi", sum(grepl("bi", names(x$model.fits)))), paste0("bb", sum(grepl("bb", names(x$model.fits))))) 
   #model names start at 0
-  print(next.model)
-  if(do.linear.pop) {
-    temp$call[["mu.mean.form"]] = cbind(recnumlen.ch, recnumlen.rh) ~ dn + I(length - mean(length))    
-    temp$call[["use_mean_smooth_re"]] = 0
-  } else {
+  # print(next.model)
+  # if(do.linear.pop) {
+  #   temp$call[["mu.mean.form"]] = cbind(recnumlen.ch, recnumlen.rh) ~ dn + I(length - mean(length))    
+  #   temp$call[["use_mean_smooth_re"]] = 0
+  # } else {
     if(do.length.pop) {
       temp$call[["mu.mean.form"]] = cbind(recnumlen.ch, recnumlen.rh) ~ dn + s(length, bs = "cr", k = 10)
     } else temp$call[["mu.mean.form"]] = cbind(recnumlen.ch, recnumlen.rh) ~ dn
-  }
-  if(do.linear.sta) {
-    temp$call[["mu.station.form"]] = cbind(recnumlen.ch, recnumlen.rh) ~ I(length - mean(length))
-    temp$call[["use_station_smooth_re"]] = 0
-  } #don't have to do anything else at station level. 
+  # }
+  # if(do.linear.sta) {
+  #   temp$call[["mu.station.form"]] = cbind(recnumlen.ch, recnumlen.rh) ~ I(length - mean(length))
+  #   temp$call[["use_station_smooth_re"]] = 0
+  # } #don't have to do anything else at station level. 
   temp$call[["do_pred"]] = TRUE
   temp$call[["new_dat"]] = quote(combined.data$new.dat)
   temp$call[["fit"]] = TRUE
@@ -185,45 +185,21 @@ for(i in 1:NROW(sp.info))
 #pull all bootstrap results back to local machine
 #rsync -arvxu saturn.nefsc.noaa.gov:/home7/tmiller2/work/paired_tow_studies/R/2020/winter_flounder ~/work/paired_tow_studies/R/2020
 
-setwd(sp)
-load("boot_pred_eta_0.RData")
-temp = boot.pred.eta
-for(j in 1:9)
-{
-  load(paste0("boot_pred_eta_", j, ".RData"))
-  temp = rbind(temp, boot.pred.eta) 
-}
-boot.pred.eta = temp
-saveRDS(boot.pred.eta, file = "boot.pred.eta.RDS")
-setwd(parentdir)
+# setwd(sp)
+# load("boot_pred_eta_0.RData")
+# temp = boot.pred.eta
+# for(j in 1:9)
+# {
+#   load(paste0("boot_pred_eta_", j, ".RData"))
+#   temp = rbind(temp, boot.pred.eta) 
+# }
+# boot.pred.eta = temp
+# saveRDS(boot.pred.eta, file = "boot.pred.eta.RDS")
+# setwd(parentdir)
   
-source("plot.results.r")
-plot.results("red_hake", ymax = c(40,20), xlim = c(10,50)) #red hake
+# source("plot.results.r")
+# plot.results("red_hake", ymax = c(40,20), xlim = c(10,50)) #red hake
 
-x = readRDS(paste0(parentdir,"/",sp,"/model_fits.RDS"))
-
-ind = length(x$pred.length)
-png(filename = paste0("~/work/paired_tow_studies/R/2020/",sp,"/plot_for_Dave.png"), width = 12*144, height = 12*144, res = 144, pointsize = 12, family = "Times")#,
-plot(x$pred.length,x$model.fits$bi2$model.res$rep$mean_pred_eta[1:ind], type = 'n', ylim = c(-1,log(20)), xlab = "Length", ylab = "Ln Relative Efficiency")
-grid()
-lines(x$pred.length,x$model.fits[[best.model]]$model.res$rep$mean_pred_eta[1:ind], col = 'red')
-lines(x$pred.length,x$model.fits[[best.model]]$model.res$rep$mean_pred_eta[1:ind + ind], col = 'blue')
-
-load(paste0(parentdir,"/",sp,"/combined_data.RData"))
-
-
-x = combined.data$catch.length
-x$ratio = x$expnumlen.ch/x$expnumlen.rh
-x$ratio[is.infinite(x$ratio)] = NA
-x$ratio[x$ratio == 0] = NA
-x = aggregate(ratio ~ length * day.night, data = x, FUN = mean, na.rm = TRUE)
-points(x$length[x$day.night == 'day'], log(x[x$day.night == 'day',3]), col = 'red', pch = 19)
-points(x$length[x$day.night == 'night'], log(x[x$day.night == 'night',3]), col = 'blue', pch = 19)
-
-x = aggregate(cbind(expnumlen.ch, expnumlen.rh) ~ length * day.night, data = combined.data$catch.length, FUN = sum)
-points(x$length[x$day.night == 'day'], log(x[,3]/x[,4])[x$day.night == 'day'], col = 'red', pch = 2)
-points(x$length[x$day.night == 'night'], log(x[,3]/x[,4])[x$day.night == 'night'], col = 'blue', pch = 2)
-dev.off()
 
 
 #make plots of results for each species including bootstrap-based confidence intervals.

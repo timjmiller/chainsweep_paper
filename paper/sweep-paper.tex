@@ -127,10 +127,12 @@
 \usepackage{bm}
 \usepackage{caption,graphics}
 \usepackage{graphicx}
+\usepackage{makecell}
 \renewcommand\figurename{Fig.}
 \captionsetup{labelsep=period, singlelinecheck=false}
 \newcommand{\changesize}[1]{\fontsize{#1pt}{#1pt}\selectfont}
 \renewcommand{\arraystretch}{1.5}
+\renewcommand\theadfont{}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -412,6 +414,21 @@ using Eqs. \ref{Nal_estimate} and \ref{biomass_estimate}.
 \hypertarget{results}{%
 \section{Results}\label{results}}
 
+\hypertarget{summer-flounder}{%
+\subsection{Summer flounder}\label{summer-flounder}}
+
+\hypertarget{american-plaice}{%
+\subsection{American plaice}\label{american-plaice}}
+
+\hypertarget{yellowtail-flounder}{%
+\subsection{Yellowtail flounder}\label{yellowtail-flounder}}
+
+\hypertarget{witch-flounder}{%
+\subsection{Witch flounder}\label{witch-flounder}}
+
+\hypertarget{goosefish}{%
+\subsection{Goosefish}\label{goosefish}}
+
 \hypertarget{winter-flounder}{%
 \subsection{Winter flounder}\label{winter-flounder}}
 
@@ -584,7 +601,13 @@ for both northern and southern red hake varied from 0.96 to 1.04 (Table
 \section{Discussion}\label{discussion}}
 
 Compare greater or lesser smoothness within stations with Pedersen et
-al.~2019.
+al.~2019. We assume the same number of knots and order (derivatives for
+penalties) in the cubic regression splines for the population and
+station-level smoothers. Pedersen et al.~also implicitly assume the
+random effects that correspond to the null space (intercept and fixe
+effects of the smoothers) are uncorrelated, but correlation in these
+models is estimated except for red hake where we found it to be
+inestimable.
 
 \hypertarget{acknowledgements}{%
 \section*{Acknowledgements}\label{acknowledgements}}
@@ -635,10 +658,26 @@ al.~2019.
 \end{center}
 \end{figure}
 
+\clearpage
+
+\begin{figure}
+\caption{Relative efficiency  of gears using chain and rockhopper sweeps from the best performing model for each species (Table \ref{best_model_compare}). Blue and red denote results for day and night data, respectively, and points represent empirical estimates of relative efficiency for each paired observation by length and paired tow. Polygons and dashed lines represent asymptotic and bootstrap-based 95\% confidence intervals, respectively.}\label{sp_rho_plot}
+\begin{center}
+\includegraphics[height = 0.8\textheight]{sp_rho_plot.png}
+\end{center}
+\end{figure}
+
 \begin{landscape}
 \begin{table}
 \caption{Description of relative catch efficiency ($\rho$) and beta-binomial dispersion ($\phi$) parameterizations for binomial and beta-binomial models and number of marginal likelihood parameters ($n_p$) for the 13 base models from \citet{miller13} and fit to paired chainsweep and rockhoppersweep tow data for each species.}\label{base_model_description}
 {\input{base_model_description}}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+\begin{table}
+\caption{Number of paired tows where fish were captured and the number of fish captured and measured for lengths for each species in total and by day or night.}\label{data_table}
+{\fontsize{10pt}{10pt}\selectfont\input{data_table}}
 \end{table}
 \end{landscape}
 
@@ -649,7 +688,7 @@ al.~2019.
 \end{landscape}
 
 \begin{landscape}
-\begin{table}\caption{Best performing models from Table \ref{base_compare_models} and extended models that include diel effects on relative catch efficiency for each species with the number of parameters for each model ($n_p$) and the differences in AIC ($\Delta$AIC) from the best of the three models ($\bf 0$) by species.}\label{best_compare_models}
+\begin{table}\caption{Best performing models from Table \ref{base_compare_models} and extended models that include diel effects on relative catch efficiency for each species with the number of parameters for each model ($n_p$) and the differences in AIC ($\Delta$AIC) from the best of the three models ($\bf 0$) by species.}\label{best_model_compare}
 {\fontsize{7pt}{7pt}\selectfont\input{best_model_compare}}
 \end{table}
 \end{landscape}
