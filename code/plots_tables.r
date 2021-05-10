@@ -163,6 +163,13 @@ temp = temp[which(rownames(temp) == "mean_pred_eta"),]
 #make plots of results for each species including bootstrap-based confidence intervals.
 source("code/plot.results.r")
 #source("get.best.r")
+n.good.boot = c()
+for(i in species.order) 
+{
+  boot.pred.eta = readRDS(paste0("results/", sp.info$sp.names[i], "_boot_pred_eta_0.RDS"))
+  for(j in 1:9) boot.pred.eta = rbind(boot.pred.eta, readRDS(paste0("results/", sp.info$sp.names[i], "_boot_pred_eta_",j,".RDS")))
+  n.good.boot[i] = sum(!is.na(boot.pred.eta[,1]))
+}
 
 boot.pred.eta = readRDS(paste0("results/", sp.name, "_boot_pred_eta_0.RDS"))
 #temp = boot.pred.eta
@@ -174,7 +181,7 @@ apply(boot.pred.eta[,ind[,1]], 2, quantile, probs = 0.975, na.rm = TRUE)
     if(boot) lines(plen, exp(apply(boot.pred.eta[,ind[,1]], 2, quantile, probs = 0.975, na.rm = TRUE)), col = 'black', lty = 2)
 
 ymax.sp = c(6,6,10,6,10,10,6,10,6,10)
-png(filename = paste0("paper/sp_rho_plot.png"), width = 8*800, height = 12*800, res = 800, pointsize = 12, family = "Times")
+png(filename = paste0("paper/sp_rho_plot.png"), width = 8*144, height = 12*144, res = 144, pointsize = 12, family = "Times")
 par(oma = c(3,3,0,0), mar = c(2,2,3,1), mfcol = c(5,2))
 for(i in species.order) 
 {
