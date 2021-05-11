@@ -94,7 +94,12 @@ Red hake were caught in 73 paired tows (40 day, 33 night). Overall 12,585  red h
 
 We use the hierarchical modeling approach from @miller13 to estimate the relative efficiency of chain sweep to the rockhopper sweep used by the NEFSC bottom trawl survey for six species from three studies carried out aboard a twin trawl vessel. Aside from the sweeps the rest of the trawl gear is the same.  As in @miller13, we compared a set of models with different assumptions about variation of relative efficiency between paired gear tows, size effects on the relative efficiency, and extra-binomial variation of observations within paired gear tows. We began with the same 13 models considered by @miller13. Models BI$_1$ to BI$_4$ and BB$_1$ to BB$_8$ in Table \ref{models_table_winter} provides a descriptions of the models fitted for all species and pseudo-formulas comparable to those used for fitting models in R and the mgcv package [@R19;@wood06]. We then also included diel effects on relative catch efficiency and intereactions with size effects with the best performing model of the original 13 models for each species. For red hake, these are the same analyses provided in @milleretal20 and the new analyses for winter and windowpane flounder are analogous. The analyses here and in @milleretal20 are similar to those by @milleretal17a, @milleretal17b, and @milleretal18, but a more generalized model has been implemented that allows multiple smooth effects on relative catch efficiency so that models do not have to be fit separately to observations occurring during the day and night. Therefore, diel effects on relative catch efficiency and interactions with size effects can be considered while allowing other parameters to be the same for all observations. 
 
+Also, we used the Template Model Builder package \citep{kristensenetal16} in R to program the models and the "nlminb" optimizer to fit the models \citep{R20}.
+
 If the best model included regression splines of length and smooth parameters estimated linear functions of length (on the transformed scale), then simpler linear models were assumed for further models that included diel effects on relative efficiency. One less parameter (smoothing parameter) for these models.
+
+To estimated uncertainty in relative catch efficiency two ways. First we used the inverted hessian of the marginal log-likelihood and the delta-method to estimate uncertainty in the predicted relative catch efficiency at size. Second, we refit models to bootstrap resamples of the paired station data. Specifically, we resampled the paired tows so that the total number paired tows was the same for a given species, but the total number of length measurements varied depending on which of the paired tows entered the sample for a particular bootstrap. We made 1000 bootstrap samples and estiamted relative catch efficiency at size from each bootstrap data set if the fitted model converged and the hessian of the maximized log-likelihood was invertible.
+
 
 Red hake: had to assume station-specific random effects that corresponded to the population-level fixed effects were uncorrelated because of convergence issues.
 
@@ -127,6 +132,8 @@ where $\widehat w(L=l)$ is the estimated weight at length from fitting length-we
 To estimate uncertainty in biomass, we used bootstrap results for the relative catch efficiency and weight at length estimates along with bootstrap samples of the survey data.  Bootstrap data sets for each of the annual surveys respected the stratified random designs by resampling with replacement within each stratum [@smith97]. For each of the 1000 combined bootstraps, survey observations for bootstrap $b$ were scaled with the corresponding bootstrap estimates of relative cookie sweep to rockhopper sweep efficiency and predicted weight at length, using Eqs. \ref{Nal_estimate} and \ref{biomass_estimate}.
 
 # Results
+
+All 1000 bootstrap fits of the paired tow data provided estimates of relative catch efficiency at size for summer, windowpane, and yellowtail flounder, and red hake, goosefish, and thorny skate. All but 2 of the bootstraps for winter flounder and 3 for barndoor skate provided estimates of relative catch efficiency. For witch flounder, 817 bootstraps provided estimates and only 386 provided estimates for American plaice.
 
 ## Summer flounder
 
@@ -227,9 +234,9 @@ Compare greater or lesser smoothness within stations with Pedersen et al. 2019. 
 \clearpage 
 
 \begin{figure}
-\caption{Relative efficiency  of gears using chain and rockhopper sweeps from the best performing model for each species (Table \ref{best_model_compare}). Blue and red denote results for day and night data, respectively, and points represent empirical estimates of relative efficiency for each paired observation by length and paired tow. Polygons and dashed lines represent asymptotic and bootstrap-based 95\% confidence intervals, respectively.}\label{sp_rho_plot}
+\caption{Relative efficiency  of gears using chain and rockhopper sweeps from the best performing model for each species (Table \ref{best_model_compare}). Blue and red denote results for day and night data, respectively, and thick and thin lines represent overall and paired-tow specific estimates of relative catch efficiency, respectively. Points represent empirical estimates of relative efficiency for paired observation by length and paired tow. Polygons and dashed lines represent hessian-based and bootstrap-based 95\% confidence intervals, respectively.}\label{sp_rho_plot}
 \begin{center}
-\includegraphics[height = 0.8\textheight]{sp_rho_plot.png}
+\includegraphics[height = 0.8\textheight]{sp_rho_plot.pdf}
 \end{center}
 \end{figure}
 

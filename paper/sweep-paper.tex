@@ -346,11 +346,27 @@ Therefore, diel effects on relative catch efficiency and interactions
 with size effects can be considered while allowing other parameters to
 be the same for all observations.
 
+Also, we used the Template Model Builder package
+\citep{kristensenetal16} in R to program the models and the ``nlminb''
+optimizer to fit the models \citep{R20}.
+
 If the best model included regression splines of length and smooth
 parameters estimated linear functions of length (on the transformed
 scale), then simpler linear models were assumed for further models that
 included diel effects on relative efficiency. One less parameter
 (smoothing parameter) for these models.
+
+To estimated uncertainty in relative catch efficiency two ways. First we
+used the inverted hessian of the marginal log-likelihood and the
+delta-method to estimate uncertainty in the predicted relative catch
+efficiency at size. Second, we refit models to bootstrap resamples of
+the paired station data. Specifically, we resampled the paired tows so
+that the total number paired tows was the same for a given species, but
+the total number of length measurements varied depending on which of the
+paired tows entered the sample for a particular bootstrap. We made 1000
+bootstrap samples and estiamted relative catch efficiency at size from
+each bootstrap data set if the fitted model converged and the hessian of
+the maximized log-likelihood was invertible.
 
 Red hake: had to assume station-specific random effects that
 corresponded to the population-level fixed effects were uncorrelated
@@ -413,6 +429,14 @@ using Eqs. \ref{Nal_estimate} and \ref{biomass_estimate}.
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
+
+All 1000 bootstrap fits of the paired tow data provided estimates of
+relative catch efficiency at size for summer, windowpane, and yellowtail
+flounder, and red hake, goosefish, and thorny skate. All but 2 of the
+bootstraps for winter flounder and 3 for barndoor skate provided
+estimates of relative catch efficiency. For witch flounder, 817
+bootstraps provided estimates and only 386 provided estimates for
+American plaice.
 
 \hypertarget{summer-flounder}{%
 \subsection{Summer flounder}\label{summer-flounder}}
@@ -663,7 +687,7 @@ inestimable.
 \begin{figure}
 \caption{Relative efficiency  of gears using chain and rockhopper sweeps from the best performing model for each species (Table \ref{best_model_compare}). Blue and red denote results for day and night data, respectively, and points represent empirical estimates of relative efficiency for each paired observation by length and paired tow. Polygons and dashed lines represent asymptotic and bootstrap-based 95\% confidence intervals, respectively.}\label{sp_rho_plot}
 \begin{center}
-\includegraphics[height = 0.8\textheight]{sp_rho_plot.png}
+\includegraphics[height = 0.8\textheight]{sp_rho_plot.pdf}
 \end{center}
 \end{figure}
 

@@ -170,6 +170,7 @@ for(i in species.order)
   for(j in 1:9) boot.pred.eta = rbind(boot.pred.eta, readRDS(paste0("results/", sp.info$sp.names[i], "_boot_pred_eta_",j,".RDS")))
   n.good.boot[i] = sum(!is.na(boot.pred.eta[,1]))
 }
+names(n.good.boot) = sp.info$sp.names[species.order]
 
 boot.pred.eta = readRDS(paste0("results/", sp.name, "_boot_pred_eta_0.RDS"))
 #temp = boot.pred.eta
@@ -178,10 +179,10 @@ temp = readRDS(paste0("/home/tmiller2/work/paired_tow_studies/R/2020/",sp.name,"
 apply(boot.pred.eta[,ind[,1]], 2, quantile, probs = 0.025, na.rm = TRUE)
 apply(boot.pred.eta[,ind[,1]], 2, quantile, probs = 0.5, na.rm = TRUE)
 apply(boot.pred.eta[,ind[,1]], 2, quantile, probs = 0.975, na.rm = TRUE)
-    if(boot) lines(plen, exp(apply(boot.pred.eta[,ind[,1]], 2, quantile, probs = 0.975, na.rm = TRUE)), col = 'black', lty = 2)
 
-ymax.sp = c(6,6,10,6,10,10,6,10,6,10)
-png(filename = paste0("paper/sp_rho_plot.png"), width = 8*144, height = 12*144, res = 144, pointsize = 12, family = "Times")
+ymax.sp = c(6,6,15,6,10,10,6,50,10,10)
+#png(filename = paste0("paper/sp_rho_plot.png"), width = 8*144, height = 12*144, res = 144, pointsize = 12, family = "Times")
+cairo_pdf('paper/sp_rho_plot.pdf', family = "Times", height = 12, width = 8)
 par(oma = c(3,3,0,0), mar = c(2,2,3,1), mfcol = c(5,2))
 for(i in species.order) 
 {
@@ -191,24 +192,4 @@ for(i in species.order)
 mtext(side = 1, 'Length (cm)', line = 1, cex = 1.5, outer = TRUE)
 mtext(side = 2, "Relative Catch Efficiency (Chain:Rockhopper)", line = 1, cex = 1.5, outer = TRUE)
 dev.off()
-
-plot.results(sp.info$sp.names[1], pdir = parentdir) 
-mtext(side = 3, sp.info$sp.pretty.names[1], line = 0, cex = 1.5)
-plot.results(sp.info$sp.names[2], pdir = parentdir) 
-mtext(side = 3, sp.info$sp.pretty.names[2], line = 0, cex = 1.5)
-plot.results(sp.info$sp.names[3], pdir = parentdir, ymax = 10) 
-mtext(side = 3, sp.info$sp.pretty.names[3], line = 0, cex = 1.5)
-plot.results(sp.info$sp.names[4], pdir = parentdir) 
-mtext(side = 3, sp.info$sp.pretty.names[4], line = 0, cex = 1.5)
-plot.results(sp.info$sp.names[5], pdir = parentdir) 
-mtext(side = 3, sp.info$sp.pretty.names[5], line = 0, cex = 1.5)
-for(i in species.order) plot.results.fn(i) 
-plot.results.fn(7) #goosefish
-plot.results.fn(3, 10, sp.info) #windowpane, need wider y-axis
-plot.results.fn(8, ymax = 8) #barndoor skate
-plot.results.fn(9) #thorny skate
-plot.results.fn(5, ymax = 10) #yellowtail flounder
-plot.results.fn(6, ymax = 10) #witch flounder
-plot.results.fn(10, ymax = 10) #red hake
-plot.results.fn(11,6) #cod
 
