@@ -73,10 +73,16 @@ Within the northeast US there has been a heightened focus on trawl survey operat
 
 The goal of these chain sweep experiments was to provide estimates of what absolute abundance might be, so that this could be used for assessment processes. For example, developing an estimate of absolute abundance allows for some swept-area biomass calculations at the region scale. These estimates can then be compares to other index-based empirical assessment methods. This is especially valuable for species where limited commercial harvest occurs, but assessments suggest the species is in poor status (e..g, red hake).
 
-In conducting paired-gear studies it is ideal to have the two gears deployed as close together spatially and temporally as possible to reduce variation between the gears in densities of the species being captured. One fishing method that approaches this ideal is the twin-trawl rigging where two trawls can be fished simultaneously [@ices96]. The basic methods we used here are based on those used by @miller13 to estimate size effects on relative catch efficiency of the Henry B. Bigelow to the Albatrosss IV. Similar approaches were used to make similar estimates for groundfish, TRAC stocks and summer flounder [@milleretal17a;@milleretal17b].  The methods here are the same as those used for red hake for the red hake research track assessments [@milleretal20].
+In conducting paired-gear studies it is ideal to have the two gears deployed as close together spatially and temporally as possible to reduce variation between the gears in densities of the species being captured. One fishing method that approaches this ideal is the twin-trawl rigging where two trawls can be fished simultaneously [@ices96]. The basic methods we used here are based on those used by @miller13 to estimate size effects on relative catch efficiency of the Henry B. Bigelow to the Albatrosss IV, but extended to consider different size effects for tows conducted during the day or night since both the spring and fall bottom trawl surveys conducted in the Northeast US are 24-hour operations.
+
+Similar approaches were used to make similar estimates for groundfish, TRAC stocks and summer flounder [@milleretal17a;@milleretal17b].  The methods here are the same as those used for red hake for the red hake research track assessments [@milleretal20].
 
 
 Importance of biomass or (catchability) efficiency estimates for both index-based methods as well as age-structured models with low contrast.
+
+Often overlooked aspects of the application of relative catch efficiency estimates is the impact on the precision of abundance indices and the correlation among annual indices that the application induces. These indices are typically used as measures of relative abundance in stock assessment with the precision of the indices used to weight the observations within the assessment model. Furthermore, these indices are typically assumed to be independent. 
+
+Here we compare the precision of the calibrated and uncalibrated indices and measure the correlation of calibrated indices for each stock.
 
 # Methods
 
@@ -92,13 +98,13 @@ Red hake were caught in 73 paired tows (40 day, 33 night). Overall 12,585  red h
 
 ## Paired-tow analysis
 
-We use the hierarchical modeling approach from @miller13 to estimate the relative efficiency of chain sweep to the rockhopper sweep used by the NEFSC bottom trawl survey for six species from three studies carried out aboard a twin trawl vessel. Aside from the sweeps the rest of the trawl gear is the same.  As in @miller13, we compared a set of models with different assumptions about variation of relative efficiency between paired gear tows, size effects on the relative efficiency, and extra-binomial variation of observations within paired gear tows. We began with the same 13 models considered by @miller13. Models BI$_1$ to BI$_4$ and BB$_1$ to BB$_8$ in Table \ref{models_table_winter} provides a descriptions of the models fitted for all species and pseudo-formulas comparable to those used for fitting models in R and the mgcv package [@R19;@wood06]. We then also included diel effects on relative catch efficiency and intereactions with size effects with the best performing model of the original 13 models for each species. For red hake, these are the same analyses provided in @milleretal20 and the new analyses for winter and windowpane flounder are analogous. The analyses here and in @milleretal20 are similar to those by @milleretal17a, @milleretal17b, and @milleretal18, but a more generalized model has been implemented that allows multiple smooth effects on relative catch efficiency so that models do not have to be fit separately to observations occurring during the day and night. Therefore, diel effects on relative catch efficiency and interactions with size effects can be considered while allowing other parameters to be the same for all observations. 
+We use the hierarchical modeling approach from @miller13 to estimate the relative efficiency of chain sweep to the rockhopper sweep used by the NEFSC bottom trawl survey for six species from three studies carried out aboard a twin trawl vessel. Aside from the sweeps the rest of the trawl gear is the same.  As in @miller13, we compared a set of models with different assumptions about variation of relative efficiency between paired gear tows, size effects on the relative efficiency, and extra-binomial variation of observations within paired gear tows. We began with the same 13 models considered by @miller13. The binomial(BI$_1$ to BI$_4$) and beta-binomial (BB$_1$ to BB$_8$) models that were fitted for all species are described in Table \ref{base_model_description} including pseudo-formulas comparable to those used for fitting mixed or generalized additive models in R [@R19;@wood06]. We then also included diel effects on relative catch efficiency and intereactions with size effects with the best performing model of the original 13 models for each species. The model framework is a bit more generalized than those in [@miller13] in that we now allow multiple smooth effects (differing by day or night) on relative catch efficiency. We implemented the models using the Template Model Builder package \citep{kristensenetal16} in R and we used the "nlminb" optimizer to fit the models. 
 
-Also, we used the Template Model Builder package \citep{kristensenetal16} in R to program the models and the "nlminb" optimizer to fit the models \citep{R20}.
+If the best model included cubic regression splines of length and the estimated smoothing parameter implied a linear functions of length (on the transformed mean), then simpler linear models were assumed for further models that included diel effects on relative efficiency. 
 
-If the best model included regression splines of length and smooth parameters estimated linear functions of length (on the transformed scale), then simpler linear models were assumed for further models that included diel effects on relative efficiency. One less parameter (smoothing parameter) for these models.
+One less parameter (smoothing parameter) for these models.
 
-To estimated uncertainty in relative catch efficiency two ways. First we used the inverted hessian of the marginal log-likelihood and the delta-method to estimate uncertainty in the predicted relative catch efficiency at size. Second, we refit models to bootstrap resamples of the paired station data. Specifically, we resampled the paired tows so that the total number paired tows was the same for a given species, but the total number of length measurements varied depending on which of the paired tows entered the sample for a particular bootstrap. We made 1000 bootstrap samples and estiamted relative catch efficiency at size from each bootstrap data set if the fitted model converged and the hessian of the maximized log-likelihood was invertible.
+We estimated uncertainty in relative catch efficiency two ways. First we used the inverted hessian of the marginal log-likelihood and the delta-method to estimate uncertainty in the predicted relative catch efficiency at size. Second, we refit models to bootstrap resamples of the paired station data. Specifically, we resampled the paired tows so that the total number paired tows was the same for a given species, but the total number of length measurements varied depending on which of the paired tows entered the sample for a particular bootstrap. We made 1000 bootstrap samples and estiamted relative catch efficiency at size from each bootstrap data set if the fitted model converged and the hessian of the maximized log-likelihood was invertible.
 
 
 Red hake: had to assume station-specific random effects that corresponded to the population-level fixed effects were uncorrelated because of convergence issues.
@@ -109,11 +115,11 @@ We fit length-weight relationships to the length and weight observations for eac
 \begin{equation}\label{wal}
  \log W_{ij} \sim \text{N}\left(\log \alpha_i + \beta_i \log L_{ij} - \frac{\sigma_i^2}{2}, \sigma_i^2\right)
 \end{equation}
-We used a bias correction to ensure the expected weigth $E(W_{ij})= \alpha_i L_{ij}^{\beta_i}$. We estimated parameters by maximizing the model likelihood programmed in TMB [@kristensenetal16] and R [@R19]. Like the relative catch efficiency, bootstrap predictions of weight at length were made by sampling with replacement the length-weight observations within each annual survey and refitting the length-weight relationship to each of the bootstrap data sets.
+We used a bias correction to ensure the expected weight $E(W_{ij})= \alpha_i L_{ij}^{\beta_i}$. We estimated parameters by maximizing the model likelihood programmed in TMB [@kristensenetal16] and R [@R19]. Like the relative catch efficiency, bootstrap predictions of weight at length were made by sampling with replacement the length-weight observations within each annual survey and refitting the length-weight relationship to each of the bootstrap data sets.
 
 ## Biomass estimation
 
-We estimated biomass for each annual survey in terms of chainsweep efficiency by scaling the survey tow observations by the relative efficiency of the chainsweep and rockhopper sweep gears. First the tow-specific catches at length are rescaled,
+For the 17 managed stocks in the Northeast US that are populations of the species where we have estimated relative efficiency, we estimated stock biomass for each spring and fall annual survey assuming 100% efficiency of the chainsweep gear by scaling the survey tow observations by the relative efficiency of the chainsweep and rockhopper sweep gears. There are single unit stocks for summer and witch flounders, American plaice, and barndoor and thorny skates, but there are three stocks of winter and yellowtail flounders, and two stocks of windowpane, red hake, and goosefish (Table \ref{stock_definition_table}). First the tow-specific catches at length are rescaled,
 \begin{equation}\label{nal}
 \widetilde N_{hi}\left(L\right) = N_{hi}\left(L\right)\widehat \rho_i\left(L\right)
 \end{equation}
@@ -121,19 +127,39 @@ where $N_{hi}(L)$ is the number at length $L$ in tow $i$ from stratum $h$ and $\
 
 The stratified abundance estimate is then calculated using the design-based estimator, 
 \begin{equation}\label{Nal_estimate}
- \widehat N(L) = \sum^H_{h=1} \frac{A_h}{An_h}\sum^{n_h}_{i=1} \widetilde N_{hi}(L)
+ \widehat N(L) = \sum^H_{h=1} \frac{A_h}{an_h}\sum^{n_h}_{i=1} \widetilde N_{hi}(L)
 \end{equation}
-where $A_h$ is the area of stratum $h$, $A=\sum^H_{h=1} A_h$, and $n_h$ is the number of tows that were made in stratum h. The corresponding biomass estimate is then
+where $A_h$ is the area of stratum $h$, $a$ is the average swept area of a survey station tow, and $n_h$ is the number of tows that were made in stratum $h$. The corresponding biomass estimate is then
 \begin{equation}\label{biomass_estimate}
  \widehat B = \sum^{n_L}_{l=1} \widehat N(L = l) \widehat w(L=l)
 \end{equation}
 where $\widehat w(L=l)$ is the estimated weight at length from fitting length-weight observations described above. Length is typically measured to the nearest cm so $n_L$ indicates the number of 1 cm length categories that were observed during the survey. 
 
-To estimate uncertainty in biomass, we used bootstrap results for the relative catch efficiency and weight at length estimates along with bootstrap samples of the survey data.  Bootstrap data sets for each of the annual surveys respected the stratified random designs by resampling with replacement within each stratum [@smith97]. For each of the 1000 combined bootstraps, survey observations for bootstrap $b$ were scaled with the corresponding bootstrap estimates of relative cookie sweep to rockhopper sweep efficiency and predicted weight at length, using Eqs. \ref{Nal_estimate} and \ref{biomass_estimate}.
+We used the same criteria for survey station selection as those currently used to estimate indices of abundance or biomass for management of each stock. For Gulf of Maine winter flounder we also restricted the size classes in each tow to those $\geq$ 30 cm as the abundance of the population over this threshold is currently used for management of this stock. For some stocks there were certain years where some but not all of the set of survey strata used to define indices of abundances were sampled. In those years, the average catch per unit area was expanded to all of the stock strata proportionally to the areas of the sampled and unsampled strata. The fall 2017 survey was extremely restricted due vessel mechanical issues and indices are not available for summer flounder, SNE-MA windowpane, and SNE-MA yellowtail flounder.
+
+
+To estimate uncertainty in biomass, we used bootstrap results for the relative catch efficiency and weight at length estimates along with bootstrap samples of the survey data.  Bootstrap data sets for each of the annual surveys respected the stratified random designs by resampling with replacement within each stratum [@smith97]. For each of the 1000 combined bootstraps, survey observations for bootstrap $b$ were scaled with the corresponding bootstrap estimates of relative chain to rockhopper sweep efficiency and predicted weight at length, using Eqs. \ref{Nal_estimate} and \ref{biomass_estimate}.
+
+We also used the bootstraps to summarize other aspects of the biomass estimates. First, we used the bootstraps to calculate the ratio of calibrated and uncalibrated biomass for each spring and fall annual survey which is the implicit relative catch efficiency in terms of biomass. The uncalibrated biomass estimate for bootstrap $b$ uses the resampled survey data as the calibrated biomass estimate except that the bootstrap for the relative catch efficiency is not used ($\widehat \rho_i\left(L\right) = 1$ in Eq. \ref{nal}). We also used the bootstraps to compare the coefficients of variation (CV) of the calibrated and uncalibrated biomass estimates.  The CV for an annual biomass estimate from either the spring or fall survey was calculated as
+\[
+\text{CV}\left(\widehat B\right) = \frac{\text{SD}\left(\widehat B\right)}{\overline{\widehat B}}
+\]
+where
+\[
+\text{SD}\left(\widehat B\right) = \sqrt{\frac{\sum_b \left(\widehat B_b - \overline{\widehat B}\right)^2}{K-1}},
+\]
+\[
+\overline{\widehat B} = \frac{\sum_b \widehat B_b}{K},
+\]
+and $K$ is the number of bootstraps.
+
+For summmer flounder it was necessary to omit one of the 1000 bootstraps of relative catch efficiency at length due to an extremely large value which the standard devation and mean of the bootstraps was sensitive to. Finally, we calculated correlation of annual biomass estimates using the bootstrap estimates of biomass. The relative precision of the calibrated and uncalibrated biomass estimmates were summarized as the average of the annual ratios of the CVs for the calibrated and uncalibrated estimates. The correlations were summarized as the mean correlation of all annual calibrated biomass estimates. 
 
 # Results
 
 All 1000 bootstrap fits of the paired tow data provided estimates of relative catch efficiency at size for summer, windowpane, and yellowtail flounder, and red hake, goosefish, and thorny skate. All but 2 of the bootstraps for winter flounder and 3 for barndoor skate provided estimates of relative catch efficiency. For witch flounder, 817 bootstraps provided estimates and only 386 provided estimates for American plaice.
+
+We see that generally where data are prevalent the bootstrap and hessian-based confidence intervals are similar across all species. However, sometimes substantially different perceptions of confidence ranges exist at the extremes of the length range for particular species.
 
 ## Summer flounder
 
@@ -240,6 +266,15 @@ Compare greater or lesser smoothness within stations with Pedersen et al. 2019. 
 \end{center}
 \end{figure}
 
+\clearpage 
+
+\begin{figure}
+\caption{Annual spring (blue) and fall (red) biomass estimates for each managed stock assuming 100\% efficiency for chainsweep gear with shaded polygons representing bootstrap-based 95\% confidence intervals. Relative catch efficiency at size estimates and bootstraps are from the best performing model for each species (Table \ref{best_model_compare}).}\label{stock_biomass_plot}
+\begin{center}
+\includegraphics[height = 0.8\textheight]{stock_biomass_plot.pdf}
+\end{center}
+\end{figure}
+
 \begin{landscape}
 \begin{table}
 \caption{Description of relative catch efficiency ($\rho$) and beta-binomial dispersion ($\phi$) parameterizations for binomial and beta-binomial models and number of marginal likelihood parameters ($n_p$) for the 13 base models from \citet{miller13} and fit to paired chainsweep and rockhoppersweep tow data for each species.}\label{base_model_description}
@@ -265,3 +300,18 @@ Compare greater or lesser smoothness within stations with Pedersen et al. 2019. 
 {\changesize{7}\input{best_model_compare}}
 \end{table}
 \end{landscape}
+
+\begin{table}
+\caption{Managed stocks associated with the species for which relative catch efficiency was estimated.}\label{stock_definition_table}
+{\input{stock_definition_table}}
+\end{table}
+
+\begin{table}
+\caption{Average of annual (2009-2019) ratios of coefficients of variation for calibrated and uncalibrated biomass indices for each stock by seasonal survey. Coefficients of variation are based on bootstrap resampling of paired tow observations, survey station data and associated length and weight observations. Annual indices for fall 2017 were not available for summer flounder, SNE-MA windowpane, and SNE-MA yellowtail flounder.}\label{stock_cv_ratios}
+{\input{stock_cv_ratios}}
+\end{table}
+
+\begin{table}
+\caption{Average correlation of annual (2009-2019) calibrated biomass indices for each stock by seasonal survey. Annual indices for fall 2017 were not available for SNE-MA windowpane and SNE-MA yellowtail flounder.}\label{stock_mean_cor}
+{\input{stock_mean_cor}}
+\end{table}

@@ -1,0 +1,27 @@
+%latex.default(round(cv.ratios[stock.order, 2:1], 2), file = paste0(parentdir,     "/paper/stock_cv_ratios.tex"), cgroup = c("\\thead{Average CV Ratio \\\\ Calibrated:Uncalibrated}"),     first.hline.double = FALSE, n.cgroup = 2, collabel.just = rep("r",         2), col.just = rep("r", 2), cgroupTexCmd = "normalfont",     rowlabel = "Stock", table.env = FALSE)%
+\begin{center}
+\begin{tabular}{lrr}
+\hline
+\multicolumn{1}{l}{\normalfont Stock}&\multicolumn{2}{c}{\normalfont \thead{Average CV Ratio \\ Calibrated:Uncalibrated}}\tabularnewline
+\cline{2-3}
+\multicolumn{1}{l}{}&\multicolumn{1}{r}{Spring}&\multicolumn{1}{r}{Fall}\tabularnewline
+\hline
+Summer flounder&$1.13$&$1.51$\tabularnewline
+American plaice&$1.07$&$1.02$\tabularnewline
+GB-GOM windowpane&$1.03$&$1.07$\tabularnewline
+SNE-MAB windowpane&$1.06$&$0.90$\tabularnewline
+GB winter flounder&$3.19$&$3.89$\tabularnewline
+GOM winter flounder&$1.05$&$1.07$\tabularnewline
+SNE winter flounder&$1.77$&$0.99$\tabularnewline
+GB yellowtail flounder&$1.06$&$0.98$\tabularnewline
+SNE-MA yellowtail flounder&$1.05$&$0.99$\tabularnewline
+CC-GOM yellowtail flounder&$1.01$&$1.02$\tabularnewline
+Witch flounder&$1.12$&$1.11$\tabularnewline
+Northern red hake&$1.95$&$2.78$\tabularnewline
+Southern red hake&$1.28$&$1.28$\tabularnewline
+Northern goosefish&$1.93$&$1.34$\tabularnewline
+Southern goosefish&$1.18$&$1.04$\tabularnewline
+Barndoor skate&$2.47$&$2.78$\tabularnewline
+Thorny skate&$1.14$&$1.20$\tabularnewline
+\hline
+\end{tabular}\end{center}

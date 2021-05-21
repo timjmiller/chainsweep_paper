@@ -127,38 +127,7 @@ x = latex(temp, file = paste0(parentdir,"/paper/best_model_compare.tex"),
   numeric.dollar = FALSE, cellTexCmds = cell.format,
   rowlabel = '', rowname = rep("",NROW(temp)), table.env = FALSE)#, rowlabel.just = "c")
 
-# x = readRDS(paste0(parentdir,"/results/big_results/",sp.info$sp.names[i],"_model_fits.RDS"))
-# best.model = species.get.best[[i]]$best.model
-# ind = length(x$pred.length)
-# #png(filename = paste0("~/work/paired_tow_studies/R/2020/",sp,"/plot_for_Dave.png"), width = 12*144, height = 12*144, res = 144, pointsize = 12, family = "Times")#,
-# plot(x$pred.length,x$model.fits$bi2$model.res$rep$mean_pred_eta[1:ind], type = 'n', ylim = c(-1,log(20)), xlab = "Length", ylab = "Ln Relative Efficiency")
-# grid()
-# lines(x$pred.length,x$model.fits[[best.model]]$model.res$rep$mean_pred_eta[1:ind], col = 'red')
-# lines(x$pred.length,x$model.fits[[best.model]]$model.res$rep$mean_pred_eta[1:ind + ind], col = 'blue')
 
-# x = readRDS(paste0("data/", sp.info$sp.names[i], "_data.RDS"))$catch.length
-# x$ratio = x$expnumlen.ch/x$expnumlen.rh
-# x$ratio[is.infinite(x$ratio)] = NA
-# x$ratio[x$ratio == 0] = NA
-# y = aggregate(ratio ~ length * day.night, data = x, FUN = mean, na.rm = TRUE)
-# points(y$length[y$day.night == 'day'], log(y[y$day.night == 'day',3]), col = 'red', pch = 19)
-# points(y$length[y$day.night == 'night'], log(y[y$day.night == 'night',3]), col = 'blue', pch = 19)
-# y = aggregate(cbind(expnumlen.ch, expnumlen.rh) ~ length * day.night, data = x, FUN = sum)
-# points(y$length[y$day.night == 'day'], log(y[,3]/y[,4])[y$day.night == 'day'], col = 'red', pch = 2)
-# points(y$length[y$day.night == 'night'], log(y[,3]/y[,4])[y$day.night == 'night'], col = 'blue', pch = 2)
-# #dev.off()
-
-#done to here
-
-i = 2
-sp.name = sp.info$sp.names[i]
-x = readRDS(paste0(parentdir,"/results/big_results/",sp.name,"_model_fits.RDS"))
-best.model = species.get.best[[i]]$best.model
-x = summary(x$model.fits[[best.model]]$model.res$sdrep)
-x = x[which(rownames(x) == "mean_pred_eta"),]
-temp = readRDS(paste0("/home/tmiller2/work/paired_tow_studies/R/2020/",sp.name,"/model_fits.RDS"))
-temp = summary(temp$model.fits[[best.model]]$model.res$sdrep)
-temp = temp[which(rownames(temp) == "mean_pred_eta"),]
 
 #make plots of results for each species including bootstrap-based confidence intervals.
 source("code/plot.results.r")
@@ -193,3 +162,160 @@ mtext(side = 1, 'Length (cm)', line = 1, cex = 1.5, outer = TRUE)
 mtext(side = 2, "Relative Catch Efficiency (Chain:Rockhopper)", line = 1, cex = 1.5, outer = TRUE)
 dev.off()
 
+##########BIOMASS INDICES
+
+setwd(parentdir)
+x = rep(1:NROW(sp.info), sp.info$NSTOCKS)
+for( i in 1:length(stocks)) {
+  load(paste0("results/", stocks[i], "_N.W.RData"))
+  s.ind = match(as.character(survey.years),colnames(all.spring.N.W))
+  f.ind = match(as.character(survey.years),colnames(all.fall.N.W))
+  y = cbind(spring = all.spring.N.W[2,s.ind], fall = all.fall.N.W[2,f.ind])/1000
+  write.csv(y, file = paste0("results/", stocks[i], "_bigelow_biomass.csv"))
+  y = cbind(spring = all.spring.N.W[3,s.ind], fall = all.fall.N.W[3,f.ind])
+  write.csv(y, file = paste0("results/", stocks[i], "_bigelow_n_per_tow.csv"))
+  y = cbind(spring = all.spring.N.W[4,s.ind], fall = all.fall.N.W[4,f.ind])
+  write.csv(y, file = paste0("results/", stocks[i], "_bigelow_kg_per_tow.csv"))
+}
+
+source("code/survey/get_biomass_boots.r")
+survey.years = 2009:2019
+all.boots = lapply(1:length(x), function(y) get_biomass_boots(sp.i = x[y], stock.i = y,years = survey.years))
+
+sp.name = "fluke"
+boot.pred.eta = readRDS(paste0("results/", sp.name, "_boot_pred_eta_0.RDS"))
+for(j in 1:9) boot.pred.eta = rbind(boot.pred.eta, readRDS(paste0("results/", sp.name, "_boot_pred_eta_",j,".RDS")))
+temp  = all.boots[[1]][[1]][1,]
+which(temp == max(temp)) #710
+apply(boot.pred.eta[,1:20], 2, function(x) which(x == max(x,na.rm=T))) #710
+
+#remove the extreme value for fluke relative efficiency
+all.boots[[1]] = lapply(all.boots[[1]], function(y) y[,-710])
+#fall 2017 survey is very poorly sampled for fluke strata 
+all.boots[[1]]$fall.calib.boots[which(survey.years==2017),] = NA
+all.boots[[1]]$fall.uncalib.boots[which(survey.years==2017),] = NA
+
+
+cv.fn = function(x) {
+  sd(x,na.rm=T)/mean(x,na.rm=T)
+  }
+
+biomass.cvs = lapply(all.boots, function(y){
+  fall.calib.cv = apply(y$fall.calib.boots,1,cv.fn)
+  fall.uncalib.cv = apply(y$fall.uncalib.boots,1,cv.fn)
+  spring.calib.cv = apply(y$spring.calib.boots,1,cv.fn)
+  spring.uncalib.cv = apply(y$spring.uncalib.boots,1,cv.fn)
+  return(cbind(fall.calib.cv, fall.uncalib.cv,spring.calib.cv,spring.uncalib.cv))
+  })
+
+lapply(1:length(all.boots), function(y){
+
+  x = all.boots[[y]]
+  out = cbind(apply(x$fall.calib.boots,1, cv.fn)) #cv
+  out = cbind(out, apply(x$fall.calib.boots,1, quantile, probs = 0.025, na.rm = TRUE)/1000)
+  out = cbind(out, apply(x$fall.calib.boots,1, quantile, probs = 0.975, na.rm = TRUE)/1000)
+  out = cbind(out, apply(x$spring.calib.boots,1, cv.fn)) #cv
+  out = cbind(out, apply(x$spring.calib.boots,1, quantile, probs = 0.025, na.rm = TRUE)/1000)
+  out = cbind(out, apply(x$spring.calib.boots,1, quantile, probs = 0.975, na.rm = TRUE)/1000)
+  print(dim(out))
+  colnames(out) = c("cv.fall", "lo.fall", "hi.fall", "cv.spring", "lo.spring", "hi.spring")
+  print(out)
+  write.csv(round(out,2), file = paste0("results/", stocks[y], ".cv.biomass.csv"))
+  temp = x$fall.uncalib.boots/x$fall.calib.boots
+  out = cbind(apply(temp,1, cv.fn)) #cv
+  out = cbind(out, apply(temp,1, quantile, probs = 0.025, na.rm = TRUE))
+  out = cbind(out, apply(temp,1, quantile, probs = 0.975, na.rm = TRUE))
+  temp = x$spring.uncalib.boots/x$spring.calib.boots  
+  out = cbind(out, apply(temp,1, cv.fn)) #cv
+  out = cbind(out, apply(temp,1, quantile, probs = 0.025, na.rm = TRUE))
+  out = cbind(out, apply(temp,1, quantile, probs = 0.975, na.rm = TRUE))
+  colnames(out) = c("cv.fall", "lo.fall", "hi.fall", "cv.spring", "lo.spring", "hi.spring")
+  write.csv(round(out,2), file = paste0("results/", stocks[y], ".cv.biomass.ratio.csv"))
+  })
+
+
+
+
+use.stock.names.2 = c(
+  "Summer flounder", 
+  "American plaice", 
+  "GB-GOM windowpane", 
+  "SNE-MAB windowpane", 
+  "GB winter flounder", 
+  "GOM winter flounder", 
+  "SNE winter flounder", 
+  "GB yellowtail flounder", 
+  "SNE-MA yellowtail flounder", 
+  "CC-GOM yellowtail flounder", 
+  "Witch flounder",
+  "Northern goosefish",
+  "Southern goosefish",
+  "Barndoor skate",
+  "Thorny skate",
+  "Northern red hake",
+  "Southern red hake",
+  "GOM cod",
+  "GB cod"
+  )
+stock.definition.table = cbind(Stock = c(
+  "Summer flounder",
+  "American Plaice",
+  "Georges Bank-Gulf of Maine (GB-GOM) windowpane",
+  "Southern New England-Mid-Atlantic Bight (SNE-MAB) windowpane",
+  "Georges Bank (GB) winter flounder",
+  "Gulf of Maine (GOM) winter flounder",
+  "Southern New England (SNE) winter flounder",
+  "GB yellowtail flounder",
+  "Southern New England-Mid-Atlantic (SNE-MA) yellowtail flounder",
+  "Cape Cod-Gulf of Maine (CC-GOM) yellowtail flounder",
+  "Witch flounder",
+  "Northern red hake",
+  "Southern red hake",
+  "Northern goosefish",
+  "Southern goosefish",
+  "Barndoor skate",
+  "Thorny skate"))
+x = latex(stock.definition.table, file = paste0("paper/stock_definition_table.tex"), 
+  first.hline.double = FALSE,
+  col.just = rep("l",2),
+  table.env = FALSE)#, rowlabel.just = "c")
+
+
+stock.order = c(1:11,16,17,12:15)
+cv.ratios = t(sapply(biomass.cvs, function(x) c(mean(x[,1]/x[,2],na.rm=T), mean(x[,3]/x[,4],na.rm=T))))
+rownames(cv.ratios) = use.stock.names.2
+colnames(cv.ratios) = c("Fall","Spring")
+x = latex(round(cv.ratios[stock.order,2:1],2), file = paste0(parentdir,"/paper/stock_cv_ratios.tex"), 
+  cgroup = c("\\thead{Average CV Ratio \\\\ Calibrated:Uncalibrated}"), first.hline.double = FALSE,
+  n.cgroup = 2,
+  collabel.just= rep("r",2), 
+  col.just = rep("r",2),
+  cgroupTexCmd="normalfont",#numeric.dollar = FALSE, #cellTexCmds = cell.format,
+  rowlabel = 'Stock', table.env = FALSE)#, rowlabel.just = "c")
+
+mean.cor = t(sapply(all.boots, function(y) {
+  sapply(y, function(z) {
+    res = cor(t(z))
+    res = mean(res[lower.tri(res)], na.rm = TRUE)
+    return(res)
+    })
+}))
+rownames(mean.cor) = use.stock.names.2
+
+x = latex(round(mean.cor[stock.order,c(3,1)],2), file = paste0(parentdir,"/paper/stock_mean_cor.tex"), 
+  first.hline.double = FALSE,
+  n.cgroup = 2,
+  colheads = c("Spring","Fall"),
+#  collabel.just= rep("r",2), 
+#  col.just = rep("r",2),
+  rowlabel = 'Stock', table.env = FALSE)#, rowlabel.just = "c")
+
+
+stock.order = c(1:11,15:17,14,12:13) #change to get similar magnitude in the same rows
+source("code/survey/plot_biomass.r")
+cairo_pdf('paper/stock_biomass_plot.pdf', family = "Times", height = 12, width = 8)
+plot_biomass(stocks[stock.order], use.stock.names[stock.order])
+dev.off()
+
+source("code/survey/plot_biomass.r")
+plot_biomass(stocks[stock.order], use.stock.names[stock.order])

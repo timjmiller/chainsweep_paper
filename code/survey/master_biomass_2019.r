@@ -54,53 +54,22 @@ for(i in 1:length(x))
   }
 }
 
-#push all info needed for bootstrapping to serveri
-#rsync -arvxu ~/work/paired_tow_studies saturn.nefsc.noaa.gov:/home7/tmiller2/work
+#push all info needed for bootstrapping to server
 
 #pull all bootstrap results back to local machine
-#rsync -arvxu saturn.nefsc.noaa.gov:/home7/tmiller2/work/paired_tow_studies/R/2019 ~/work/paired_tow_studies/R
 
-#make summary files
-x = rep(1:NROW(sp.info), sp.info$NSTOCKS)
-for(i in 1:length(x)) {
-  boot_biomass(sp.i = x[i], stock.i = i, do.boot.biomass = FALSE, 
-    do.boot.res = TRUE, years = survey.years, n.boot = 1000, do.spring = TRUE,
-    do.fall = TRUE)
-}
 
-x = rep(1:NROW(sp.info), sp.info$NSTOCKS)
-for( i in 1:length(x)) plot.biomass.fn(i=x[i], sp.info, stock = stocks[i], use.stock.names[i], file.loc = "~/work/paired_tow_studies/R/2019")
-plot.biomass.fn(i=1, sp.info, stock = stocks[1], use.stock.names[1], file.loc = "~/work/paired_tow_studies/R/2019")
-
-load("stock.strata.RData")
-x = rep(1:NROW(sp.info), sp.info$NSTOCKS)
-y = read.csv("model_compare.csv", as.is = TRUE)
-for( i in 1:NROW(sp.info)) {
-  system(paste0("mkdir ../assessments/",sp.info$sp.names[i]))
-  dn = which(y[,2+i] == 0)>13
-  setwd(sp.info$sp.names[i])
-  if(dn) ftypes <- c("\\.2\\.", "2\\.csv", "2\\.png", "dn\\_rho") else ftypes <- c("\\.1\\.", "1\\.csv", "1\\.png", "^(?=.*rho)(?!.*dn)")
-  fnames = unique(unlist(sapply(ftypes, grep, x = dir(), perl = TRUE, value = TRUE)))
-  system(paste0("cp ", paste(fnames, collapse = " "), " ", "../../assessments/", sp.info$sp.names[i]))
-  setwd(parentdir)
-}
-
-load("stock.strata.RData")
 setwd(parentdir)
 x = rep(1:NROW(sp.info), sp.info$NSTOCKS)
 for( i in 1:length(stocks)) {
-  setwd(sp.info$sp.names[x[i]])
-  load(paste0(stocks[i], "_N.W.RData"))
-  s.ind = match(as.character(2009:2019),colnames(all.spring.N.W))
-  f.ind = match(as.character(2009:2019),colnames(all.fall.N.W))
+  load(paste0("results/", stocks[i], "_N.W.RData"))
+  s.ind = match(as.character(survey.years),colnames(all.spring.N.W))
+  f.ind = match(as.character(survey.years),colnames(all.fall.N.W))
   y = cbind(spring = all.spring.N.W[2,s.ind], fall = all.fall.N.W[2,f.ind])/1000
-  write.csv(y, file = paste0("../../assessments/", sp.info$sp.names[x[i]], "/", stocks[i], "_bigelow_biomass.csv"))
+  write.csv(y, file = paste0("results/", stocks[i], "_bigelow_biomass.csv"))
   y = cbind(spring = all.spring.N.W[3,s.ind], fall = all.fall.N.W[3,f.ind])
-  write.csv(y, file = paste0("../../assessments/", sp.info$sp.names[x[i]], "/", stocks[i], "_bigelow_n_per_tow.csv"))
+  write.csv(y, file = paste0("results/", stocks[i], "_bigelow_n_per_tow.csv"))
   y = cbind(spring = all.spring.N.W[4,s.ind], fall = all.fall.N.W[4,f.ind])
-  write.csv(y, file = paste0("../../assessments/", sp.info$sp.names[x[i]], "/", stocks[i], "_bigelow_kg_per_tow.csv"))
-  setwd(parentdir)
+  write.csv(y, file = paste0("results/", stocks[i], "_bigelow_kg_per_tow.csv"))
 }
 
-#push all results to assessment folderss on server
-#rsync -arvxu ~/work/paired_tow_studies/R/assessments saturn.nefsc.noaa.gov:/home7/tmiller2/work/paired_tow_studies/R
