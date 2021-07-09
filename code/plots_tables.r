@@ -312,6 +312,7 @@ x = latex(round(mean.cor[stock.order,c(3,1)],2), file = paste0(parentdir,"/paper
 
 
 stock.order = c(1:11,15:17,14,12:13) #change to get similar magnitude in the same rows
+stock.order = c(1,3:10,2,11,15:17,14,12:13) #change to get similar magnitude in the same rows
 source("code/survey/plot_biomass.r")
 cairo_pdf('paper/stock_biomass_plot.pdf', family = "Times", height = 12, width = 8)
 plot_biomass(stocks[stock.order], use.stock.names[stock.order])

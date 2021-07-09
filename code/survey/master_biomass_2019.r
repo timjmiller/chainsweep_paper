@@ -58,18 +58,3 @@ for(i in 1:length(x))
 
 #pull all bootstrap results back to local machine
 
-
-setwd(parentdir)
-x = rep(1:NROW(sp.info), sp.info$NSTOCKS)
-for( i in 1:length(stocks)) {
-  load(paste0("results/", stocks[i], "_N.W.RData"))
-  s.ind = match(as.character(survey.years),colnames(all.spring.N.W))
-  f.ind = match(as.character(survey.years),colnames(all.fall.N.W))
-  y = cbind(spring = all.spring.N.W[2,s.ind], fall = all.fall.N.W[2,f.ind])/1000
-  write.csv(y, file = paste0("results/", stocks[i], "_bigelow_biomass.csv"))
-  y = cbind(spring = all.spring.N.W[3,s.ind], fall = all.fall.N.W[3,f.ind])
-  write.csv(y, file = paste0("results/", stocks[i], "_bigelow_n_per_tow.csv"))
-  y = cbind(spring = all.spring.N.W[4,s.ind], fall = all.fall.N.W[4,f.ind])
-  write.csv(y, file = paste0("results/", stocks[i], "_bigelow_kg_per_tow.csv"))
-}
-

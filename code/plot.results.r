@@ -14,20 +14,20 @@ plot.results = function(sp.name, i, ymax = 6, xlim, sp.tab= sp.info, ylab = "Rel
   #sp = sp.tab$SVSPP[i]
   x = get.best(sp.name, pdir = pdir)
   best.model = x$best.model 
-  print(best.model)
+  #print(best.model)
   #best.dn.model = x$best.dn.model #"bi3"
-  print(best.model)
+  #print(best.model)
   #setwd(sp.name)
-  x = readRDS(paste0("results/big_results/", sp.name, "_model_fits.RDS"))
-  combined.data = readRDS(paste0("data/",sp.name, "_data.RDS"))
+  x = readRDS(paste0(pdir,"/results/big_results/", sp.name, "_model_fits.RDS"))
+  combined.data = readRDS(paste0(pdir,"/data/",sp.name, "_data.RDS"))
   boot = paste0(sp.name, "_boot_pred_eta_0.RDS") %in% dir("results")
   if(boot) 
   {
-    boot.pred.eta = readRDS(paste0("results/", sp.name, "_boot_pred_eta_0.RDS"))
+    boot.pred.eta = readRDS(paste0(pdir,"/results/", sp.name, "_boot_pred_eta_0.RDS"))
     #temp = boot.pred.eta
-    for(j in 1:9) boot.pred.eta = rbind(boot.pred.eta, readRDS(paste0("results/", sp.name, "_boot_pred_eta_",j,".RDS")))
+    for(j in 1:9) boot.pred.eta = rbind(boot.pred.eta, readRDS(paste0(pdir,"/results/", sp.name, "_boot_pred_eta_",j,".RDS")))
   }
-  print(boot)
+  #print(boot)
 
 #  if(boot) boot.pred.eta = readRDS("boot.pred.eta.RDS")
   dat = combined.data$cl.less
@@ -42,7 +42,7 @@ plot.results = function(sp.name, i, ymax = 6, xlim, sp.tab= sp.info, ylab = "Rel
   temp = temp[which(rownames(temp) == "mean_pred_eta"),]
   #if(NROW(temp) > length(plen)) dn = TRUE else dn = FALSE #NROW(temp) should be a multiple of length(plen)
   dn = any(grepl("dn", as.character(x$model.fits[[best.model]]$call[["mu.mean.form"]])))
-  print(dn)
+  #print(dn)
  
   #stop()
   
@@ -53,7 +53,7 @@ plot.results = function(sp.name, i, ymax = 6, xlim, sp.tab= sp.info, ylab = "Rel
   tcol <- paste(rgb(temp[1,],temp[2,], temp[3,], maxColorValue = 255), "50", sep = '')
   tcoli <- paste(rgb(temp[1,],temp[2,], temp[3,], maxColorValue = 255), "20", sep = '')
   if(missing(xlim)) xlim = range(plen)
-  print(xlim)
+  #print(xlim)
   # #png(filename = paste0(sp.name,"_", best.model, "_rho_1.png"), width = 8*144, height = 8*144, res = 144, pointsize = 12, family = "Times")#,
   if(!dn)
   {
@@ -61,9 +61,6 @@ plot.results = function(sp.name, i, ymax = 6, xlim, sp.tab= sp.info, ylab = "Rel
     plot(plen, exp(z[ind[,1],1]), type = 'n', ylim = c(0, ymax[1]), xlim = xlim, axes = FALSE, ann = FALSE)
     box(lwd = 2)
     grid(col = gray(0.7), lwd = 1, lty = 2)
-    print(day.sta.ind)
-    print(night.sta.ind)
-    print(dim(y$station_pred_eta))
     for(i in day.sta.ind) lines(plen, exp(y$station_pred_eta[i,ind[,1]]), col = gray(0.8), lwd = 1)
     lines(plen, exp(z[ind[,1],1]), lwd = 2)
     polygon(c(plen,rev(plen)), exp(c(z[ind[,1],2],rev(z[ind[,1],3]))), col = tcol, border = "transparent")
