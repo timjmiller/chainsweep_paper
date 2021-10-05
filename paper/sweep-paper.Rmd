@@ -5,7 +5,8 @@ title: Chainsweep-based efficiency of bottom trawl surveys and biomass estimates
 author: "Timothy J. Miller^1^, David E. Richardson^2^, Andrew Jones^2^, Phil Politis^1^"
 date: ''
 output:
-  word_document: default
+  html_document:
+    df_print: paged
   pdf_document:
     citation_package: natbib
     fig_caption: yes
@@ -15,8 +16,7 @@ output:
       - journalshortcuts.tex
     keep_tex: yes
     number_sections: yes
-  html_document:
-    df_print: paged
+  word_document: default
 header-includes:
 - \usepackage{xspace}
 - \usepackage{bm}
