@@ -130,7 +130,6 @@ x = latex(temp, file = paste0(parentdir,"/paper/best_model_compare.tex"),
 
 
 #make plots of results for each species including bootstrap-based confidence intervals.
-source("code/plot.results.r")
 #source("get.best.r")
 n.good.boot = c()
 for(i in species.order) 
@@ -152,6 +151,7 @@ apply(boot.pred.eta[,ind[,1]], 2, quantile, probs = 0.975, na.rm = TRUE)
 ymax.sp = c(6,6,15,6,10,10,6,50,10,10)
 #png(filename = paste0("paper/sp_rho_plot.png"), width = 8*144, height = 12*144, res = 144, pointsize = 12, family = "Times")
 cairo_pdf('paper/sp_rho_plot.pdf', family = "Times", height = 12, width = 8)
+source("code/plot.results.r")
 par(oma = c(3,3,0,0), mar = c(2,2,3,1), mfcol = c(5,2))
 for(i in species.order) 
 {
@@ -313,10 +313,15 @@ x = latex(round(mean.cor[stock.order,c(3,1)],2), file = paste0(parentdir,"/paper
 
 stock.order = c(1:11,15:17,14,12:13) #change to get similar magnitude in the same rows
 stock.order = c(1,3:10,2,11,15:17,14,12:13) #change to get similar magnitude in the same rows
-source("code/survey/plot_biomass.r")
 cairo_pdf('paper/stock_biomass_plot.pdf', family = "Times", height = 12, width = 8)
+source("code/survey/plot_biomass.r")
 plot_biomass(stocks[stock.order], use.stock.names[stock.order])
 dev.off()
 
 source("code/survey/plot_biomass.r")
 plot_biomass(stocks[stock.order], use.stock.names[stock.order])
+
+cairo_pdf('paper/stock_biomass_efficiency_plot.pdf', family = "Times", height = 12, width = 8)
+source("code/survey/plot_biomass_efficiency.r")
+plot_biomass_efficiency(stocks[stock.order], use.stock.names[stock.order])
+dev.off()

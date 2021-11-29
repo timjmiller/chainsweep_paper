@@ -5,5 +5,6 @@ code/survey/*.so
 results/big_results
 code/gather_data
 .Rproj.user
+.Rhistory
 lit
 paper/.Rhistory

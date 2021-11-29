@@ -1,14 +1,17 @@
 plot_biomass = function(stocks, stock.names.plot, all.boots)#i,sp.info, stock, file.loc = "paper")# = rep(6,6))
 {
-  temp <- col2rgb('dodgerblue')
-  scol <- paste0(rgb(temp[1,],temp[2,], temp[3,], maxColorValue = 255), "50")
-  scoli <- paste0(rgb(temp[1,],temp[2,], temp[3,], maxColorValue = 255), "20")
-  temp <- col2rgb('orangered')
-  fcol <- paste0(rgb(temp[1,],temp[2,], temp[3,], maxColorValue = 255), "50")
-  fcoli <- paste0(rgb(temp[1,],temp[2,], temp[3,], maxColorValue = 255), "20")
+  pal = viridisLite::viridis(n=2, option = "H", begin = 0.2, end = 0.8)
+  palpoly <- viridisLite::viridis(n=2, alpha=0.3, option = "H", begin = 0.2, end = 0.8)
+  #temp <- col2rgb('dodgerblue')
+  #scol <- paste0(rgb(temp[1,],temp[2,], temp[3,], maxColorValue = 255), "50")
+  #scoli <- paste0(rgb(temp[1,],temp[2,], temp[3,], maxColorValue = 255), "20")
+  #temp <- col2rgb('orangered')
+  #fcol <- paste0(rgb(temp[1,],temp[2,], temp[3,], maxColorValue = 255), "50")
+  #fcoli <- paste0(rgb(temp[1,],temp[2,], temp[3,], maxColorValue = 255), "20")
   
-  tcol <- col2rgb('black')
-  tcol <- paste(rgb(tcol[1,],tcol[2,], tcol[3,], maxColorValue = 255), "55", sep = '')
+  #tcol <- col2rgb('black')
+  tcol = adjustcolor("black",alpha = 0.4)
+ # tcol <- paste(rgb(tcol[1,],tcol[2,], tcol[3,], maxColorValue = 255), "55", sep = '')
   ymax = numeric()
   
   plot.data = lapply(stocks, function(x){
@@ -40,8 +43,8 @@ plot_biomass = function(stocks, stock.names.plot, all.boots)#i,sp.info, stock, f
     plot(years, plot.data[[i]][,5], type = 'n', ylim = c(0, ymax[i]), axes = FALSE, ann = FALSE)
     box(lwd = 2)
     grid(col = gray(0.7), lwd = 1, lty = 2)
-    lines(years[spring.ind], plot.data[[i]][spring.ind,5], lwd = 2, col = "dodgerblue")
-    polygon(c(years[spring.ind],rev(years[spring.ind])), c(plot.data[[i]][spring.ind,6],rev(plot.data[[i]][spring.ind,7])), col = scol, border = "transparent")
+    lines(years[spring.ind], plot.data[[i]][spring.ind,5], lwd = 2, col = pal[1])
+    polygon(c(years[spring.ind],rev(years[spring.ind])), c(plot.data[[i]][spring.ind,6],rev(plot.data[[i]][spring.ind,7])), col = palpoly[1], border = "transparent")
     if(length(fall.ind) != NROW(plot.data[[i]]))
     {
       tyrs = 2009:2016
@@ -49,20 +52,20 @@ plot_biomass = function(stocks, stock.names.plot, all.boots)#i,sp.info, stock, f
       tyrs = c(tyrs, 2016.2)
       tdat = plot.data[[i]][ind,]
       tdat = rbind(plot.data[[i]][ind,], plot.data[[i]][ind[length(ind)],])
-      lines(2009:2016, plot.data[[i]][ind,2], lwd = 2, col = "orangered")
-      polygon(c(tyrs,rev(tyrs)), c(tdat[,3],rev(tdat[,4])), col = fcol, border = "transparent")
+      lines(2009:2016, plot.data[[i]][ind,2], lwd = 2, col = pal[2])
+      polygon(c(tyrs,rev(tyrs)), c(tdat[,3],rev(tdat[,4])), col = palpoly[2], border = "transparent")
 
       tyrs = 2018:2019
       ind = which(survey.years %in% tyrs)
       tyrs = c(2017.8,tyrs)
       tdat = plot.data[[i]][ind,]
       tdat = rbind(plot.data[[i]][ind[1],],plot.data[[i]][ind,])
-      lines(2018:2019, plot.data[[i]][ind,2], lwd = 2, col = "orangered")
-      polygon(c(tyrs,rev(tyrs)), c(tdat[,3],rev(tdat[,4])), col = fcol, border = "transparent")
+      lines(2018:2019, plot.data[[i]][ind,2], lwd = 2, col = pal[2])
+      polygon(c(tyrs,rev(tyrs)), c(tdat[,3],rev(tdat[,4])), col = palpoly[2], border = "transparent")
     }
     else{
-      lines(years[fall.ind], plot.data[[i]][fall.ind,2], lwd = 2, col = "orangered")
-      polygon(c(years[fall.ind],rev(years[fall.ind])), c(plot.data[[i]][fall.ind,3],rev(plot.data[[i]][fall.ind,4])), col = fcol, border = "transparent")
+      lines(years[fall.ind], plot.data[[i]][fall.ind,2], lwd = 2, col = pal[2])
+      polygon(c(years[fall.ind],rev(years[fall.ind])), c(plot.data[[i]][fall.ind,3],rev(plot.data[[i]][fall.ind,4])), col = palpoly[2], border = "transparent")
     }
     if(i %in% 16:18) axis(1, lwd = 2, cex.axis = 1.5)
     else axis(1, lwd = 2, cex.axis = 1.5, tick = FALSE, labels = FALSE)
