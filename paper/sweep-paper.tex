@@ -7,9 +7,12 @@
 ]{article}
 \title{Estimation of survey efficiency and abundance for commercially
 important species from industry-based paired gear experiments}
-\author{Timothy J. Miller\textsuperscript{1}, David E.
-Richardson\textsuperscript{2}, Phil Politis\textsuperscript{1}, Andrew
-Jones\textsuperscript{2}}
+\author{Timothy J. Miller\textsuperscript{1} \and David E.
+Richardson\textsuperscript{2} \and Philip J.
+Politis\textsuperscript{1} \and Christopher D.
+Roebuck\textsuperscript{3} \and John P.
+Manderson\textsuperscript{4,5} \and Michael H.
+Martin\textsuperscript{1,6} \and Andrew W. Jones\textsuperscript{2}}
 \date{}
 
 \usepackage{amsmath,amssymb}
@@ -45,7 +48,7 @@ Jones\textsuperscript{2}}
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
   pdftitle={Estimation of survey efficiency and abundance for commercially important species from industry-based paired gear experiments},
-  pdfauthor={Timothy J. Miller1, David E. Richardson2, Phil Politis1, Andrew Jones2},
+  pdfauthor={Timothy J. Miller1; David E. Richardson2; Philip J. Politis1; Christopher D. Roebuck3; John P. Manderson4,5; Michael H. Martin1,6; Andrew W. Jones2},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
@@ -184,11 +187,19 @@ Jones\textsuperscript{2}}
 \begin{document}
 \maketitle
 
-\(^1\)\href{mailto:timothy.j.miller@noaa.gov}{\nolinkurl{timothy.j.miller@noaa.gov}},
-Northeast Fisheries Science Center, National Marine Fisheries Service,
-166 Water Street, Woods Hole, MA 02543, USA\\
-\(^2\)Northeast Fisheries Science Center, National Marine Fisheries
-Service, 28 Tarzwell Drive Narragansett, RI, 02882 USA\\
+\(^1\)corresponding author:
+\href{mailto:timothy.j.miller@noaa.gov}{\nolinkurl{timothy.j.miller@noaa.gov}},
+Northeast Fisheries Science Center, Woods Hole Laboratory, 166 Water
+Street, Woods Hole, MA 02543 USA\\
+\(^2\)Northeast Fisheries Science Center, Narragansett Laboratory, 28
+Tarzwell Drive Narragansett, RI 02882 USA\\
+\(^3\)Fishing Vessel Karen Elizabeth, Narragansett, RI 02882, USA\\
+\(^4\)Northeast Fisheries Science Center, James J. Howard Marine
+Sciences Laboratory, 74 Magruder Road Highlands, NJ 07732 USA\\
+\(^5\)Current address: OpenOcean Research, Suite 101, 40 West Evergreen
+Avenue, Philadelphia, PA, 19118 USA\\
+\(^6\)Current address: Alaska Fisheries Science Center, 7600 Sand Point
+Way N.E., Building 4 Seattle, WA 98115 USA\\
 
 \pagebreak
 
@@ -224,7 +235,7 @@ the annual biomass estimates.
 \addcontentsline{toc}{subsubsection}{Keywords}
 
 gear efficiency, abundance estimation, hierarchical generalized additive
-models,
+models
 
 \pagebreak
 
@@ -323,7 +334,7 @@ species, but we extend the model to consider different size effects for
 tows conducted during the day or night since both the spring and fall
 bottom trawl surveys conducted in the Northeast US are 24-hour
 operations. We apply these methods to paired gear observations and
-estimate relative efficiency of the chainsweep and rockhopper sweep
+estimate relative efficiency of the chain sweep and rockhopper sweep
 gears. We apply the estimated efficiency of the rockhopper gear to
 survey data to estimate spring and fall abundance indices from 2009-2019
 for 17 commercially important fish stocks in the Northeast US (Table
@@ -446,9 +457,9 @@ survey \(i\), was log-normal distributed, \begin{equation}\label{wal}
  \log W_{ij} \sim \text{N}\left(\log \alpha_i + \beta_i \log L_{ij} - \frac{\sigma_i^2}{2}, \sigma_i^2\right)
 \end{equation} We used a bias correction to ensure the expected weight
 \(E(W_{ij})= \alpha_i L_{ij}^{\beta_i}\). We estimated parameters by
-maximizing the model likelihood programmed in TMB
-\citep{kristensenetal16} and R \citep{R19} and generated predictions of
-weight at length \begin{equation}\label{predwal}
+maximizing the model likelihood programmed with the Template Model
+Builder package \citep{kristensenetal16} and R \citep{R19} and generated
+predictions of weight at length \begin{equation}\label{predwal}
 \widehat W(L) = \widehat \alpha L^{\widehat \beta}.
 \end{equation} Like the relative catch efficiency, we made bootstrap
 predictions of weight at length by sampling with replacement the
@@ -461,13 +472,14 @@ length-weight relationship to each of the bootstrap data sets.
 For the 17 managed stocks that are populations of the species in the
 Northeast US where we have estimated relative efficiency, we estimated
 stock biomass for each spring and fall annual survey assuming 100\%
-efficiency of the chainsweep gear by scaling the survey tow observations
-by the relative efficiency of the chainsweep and rockhopper sweep gears.
-There are single unit stocks for summer and witch flounders, American
-plaice, and barndoor and thorny skates, but there are three stocks of
-winter and yellowtail flounders, and two stocks of windowpane, red hake,
-and goosefish (Table \ref{stock_definition_table}). First, the
-tow-specific catches at length are rescaled, \begin{equation}\label{nal}
+efficiency of the chain sweep gear by scaling the survey tow
+observations by the relative efficiency of the chain sweep and
+rockhopper sweep gears. There are single unit stocks for summer and
+witch flounders, American plaice, and barndoor and thorny skates, but
+there are three stocks of winter and yellowtail flounders, and two
+stocks of windowpane, red hake, and goosefish (Table
+\ref{stock_definition_table}). First, the tow-specific catches at length
+are rescaled, \begin{equation}\label{nal}
 \widetilde N_{hi}\left(L\right) = N_{hi}\left(L\right)\widehat \rho_i\left(L\right)
 \end{equation} where \(N_{hi}(L)\) is the number at length \(L\) in tow
 \(i\) from stratum \(h\) and \(\widehat \rho_i\left(L\right)\) is the
@@ -534,11 +546,11 @@ was calculated as \[
 \overline{\widehat B}_y = \frac{\sum_{b=1}^K \widehat B_{y,b}}{K},
 \] and \(K\) is the number of bootstraps.
 
-For summmer flounder it was necessary to omit one of the 1000 bootstraps
+For summer flounder it was necessary to omit one of the 1000 bootstraps
 of relative catch efficiency at length due to an extremely large value
-which the standard devation and mean of the bootstraps was sensitive to.
-Finally, we calculated correlation of annual biomass estimates for years
-\(y\) and \(z\) using the bootstrap estimates of biomass \[
+which the standard deviation and mean of the bootstraps was sensitive
+to. Finally, we calculated correlation of annual biomass estimates for
+years \(y\) and \(z\) using the bootstrap estimates of biomass \[
 Cor\left(\widehat B_y, \widehat B_z\right) = \frac{Cov\left(\widehat B_y, \widehat B_z\right)}{\text{SD}\left(\widehat B_y\right)\text{SD}\left(\widehat B_z\right)}
 \] where the covariance is \[
 Cov\left(\widehat B_y, \widehat B_z\right) = \frac{\sum_{b=1}^K \left(\widehat B_{y,b} - \overline{\widehat B}_y\right)\left(\widehat B_{z,b} - \overline{\widehat B}_z\right)}{K-1}.
@@ -549,7 +561,9 @@ the CVs for the calibrated and uncalibrated estimates \[
 \] We summarized the correlation of biomass estimates as the mean
 correlation of all annual calibrated biomass estimates \[
 \overline {Cor} = \frac{1}{n_y(n_y-1)/2} \sum_{y=2}^{n_y} \sum_{z=1}^{y} Cor\left(\widehat B_y, \widehat B_z\right).
-\]
+\] All code and most data files to run the analysis and generate biomass
+estimates are available at
+\url{https://github.com/timjmiller/chainsweep_paper}.
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
@@ -599,7 +613,7 @@ bootstraps for winter flounder and 3 for barndoor skate provided
 estimates of relative catch efficiency. For witch flounder, 817
 bootstraps provided estimates and only 386 provided estimates for
 American plaice. One bootstrap fit for summer flounder was excluded due
-to an extremely high relative efficiency of the chainsweep gear which
+to an extremely high relative efficiency of the chain sweep gear which
 impeded estimation of standard errors from the bootstrap fits.
 
 We see that generally where data are prevalent the bootstrap and
@@ -625,7 +639,7 @@ and northern goosefish estimates were typically greater in the fall than
 the spring.
 
 The efficiency of the rockhopper sweep in terms of biomass relative to
-that calibrated to the chainsweep gear varies across survey years and
+that calibrated to the chain sweep gear varies across survey years and
 seasons due primarily to differences in size composition, but also
 variation in estimated length-weight relationship parameters (Figure
 \ref{stock_biomass_efficiency_plot}). The efficiency of the bottom trawl
@@ -728,14 +742,15 @@ than the true value). However, estimation using the data from these
 paired-gear studies and these assumptions is less biased than those made
 without them.
 
-Treating the chain-sweep based abundance estimates implicitly assumes
-that the chainsweep provides complete capture efficiency and that the
+Treating the chain sweep-based abundance estimates implicitly assumes
+that the chain sweep provides complete capture efficiency and that the
 stock resides completely within the strata that are used to generate the
-abundance indices. It is unlikely that the chainsweep gear is completely
-efficient for all sizes of fish of a particular species over all
-substrate types that are sampled. It is also typical for many of these
-stocks to extend somewhat outside of the survey strata used to define
-the indices either throughout the year or seasonally due to migration.
+abundance indices. It is unlikely that the chain sweep gear is
+completely efficient for all sizes of fish of a particular species over
+all substrate types that are sampled. It is also typical for many of
+these stocks to extend somewhat outside of the survey strata used to
+define the indices either throughout the year or seasonally due to
+migration.
 
 These analyses treat the amount of daylight as binary effect (day/night)
 on the relative catch efficiency. However, behavior of the fish with
@@ -766,7 +781,7 @@ incorporating this information in an assessment model.
 
 The estimates of absolute abundance produced using the sweep comparison
 experiments have already been informative to assessments and management
-of many stocks in the Northeast U.S. Chainsweep-based abundance
+of many stocks in the Northeast U.S. Chain sweep-based abundance
 estimates have been used directly in the age-structured assessment model
 for summer flounder and northern and southern goosefish stocks
 \citep{nefsc19, nefsc20b}. Abundance estimates for southern New
@@ -853,7 +868,7 @@ Jessica Blaylock? We thank Adam Poquette for creating the map in Figure
 \clearpage
 
 \begin{figure}
-\caption{Annual spring (blue) and fall (red) biomass estimates for each managed stock assuming 100\% efficiency for chainsweep gear with shaded polygons representing bootstrap-based 95\% confidence intervals. Relative catch efficiency at size estimates and bootstraps are from the best performing model for each species (Table \ref{best_model_compare}).}\label{stock_biomass_plot}
+\caption{Annual spring (blue) and fall (red) biomass estimates for each managed stock assuming 100\% efficiency for chain sweep gear with shaded polygons representing bootstrap-based 95\% confidence intervals. Relative catch efficiency at size estimates and bootstraps are from the best performing model for each species (Table \ref{best_model_compare}).}\label{stock_biomass_plot}
 \begin{center}
 \includegraphics[height = 0.8\textheight]{stock_biomass_plot.pdf}
 \end{center}
@@ -862,7 +877,7 @@ Jessica Blaylock? We thank Adam Poquette for creating the map in Figure
 \clearpage
 
 \begin{figure}
-\caption{Implied efficiency of annual spring (blue) and fall (red) bottom trawl survey biomass estimates for each managed stock assuming 100\% efficiency for chainsweep gear with shaded polygons representing bootstrap-based 95\% confidence intervals. Relative catch efficiency at size estimates and bootstraps are from the best performing model for each species (Table \ref{best_model_compare}).}\label{stock_biomass_efficiency_plot}
+\caption{Implied efficiency of annual spring (blue) and fall (red) bottom trawl survey biomass estimates for each managed stock assuming 100\% efficiency for chain sweep gear with shaded polygons representing bootstrap-based 95\% confidence intervals. Relative catch efficiency at size estimates and bootstraps are from the best performing model for each species (Table \ref{best_model_compare}).}\label{stock_biomass_efficiency_plot}
 \begin{center}
 \includegraphics[height = 0.8\textheight]{stock_biomass_efficiency_plot.pdf}
 \end{center}
@@ -877,7 +892,7 @@ Jessica Blaylock? We thank Adam Poquette for creating the map in Figure
 
 \begin{landscape}
 \begin{table}
-\caption{Description of relative catch efficiency ($\rho$) and beta-binomial dispersion ($\phi$) parameterizations for binomial and beta-binomial models and number of marginal likelihood parameters ($n_p$) for the 13 base models from \citet{miller13} and fit to paired chainsweep and rockhoppersweep tow data for each species.}\label{base_model_description}
+\caption{Description of relative catch efficiency ($\rho$) and beta-binomial dispersion ($\phi$) parameterizations for binomial and beta-binomial models and number of marginal likelihood parameters ($n_p$) for the 13 base models from \citet{miller13} and fit to paired chain sweep and rockhoppersweep tow data for each species.}\label{base_model_description}
 {\input{base_model_description}}
 \end{table}
 \end{landscape}
