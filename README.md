@@ -1,11 +1,31 @@
-*Estimation of survey efficiency and abundance for commercially important species from industry-based paired gear experiments*
+*Estimation of survey efficiency and biomass for commercially important species from industry-based paired gear experiments*
 
 Timothy J. Miller, David E. Richarson, Philip J. Politis, Christopher D. Roebuck, John P. Manderson, Michael H. Martin, Andrew W. Jones
 
 
 ### Abstract
 
-Fishery-independent surveys provide valuable information about trends in population abundance for management of commercially important fish stocks. A critical component of the relationship of the catches of the survey to the size of a fish stock is the catch efficiency of the survey gear. Using a general hierarchical model we estimated relative efficiency of chain sweep to the rockhopper sweep used by the Northeast Fisheries Science Center bottom trawl survey from paired-gear experimental tows carried out between 2015 and 2017 using a twin-trawl vessel. For 10 commercially important species, we fitted and compared a set of models with alternative assumptions about variation of relative efficiency between paired gear tows, size and diel effects on the relative efficiency, and extra-binomial variation of observations within paired gear tows. These analyses provided evidence of changes in relative efficiency with size for all species and diel effects were important for all but one species. We then used the bottom trawl survey data from surveys between 2009 and 2019 with the relative catch efficiency estimates from the best performing models to estimate annual and seasonal chain sweep-based swept area biomass for 17 managed stocks. We estimated uncertainty in all results using bootstrap procedures for each data component. We also assessed the effect of calibration on uncertainty of the biomass estimates and the degree of correlation of the annual biomass estimates. 
+Fishery-independent surveys provide valuable information about trends in
+population abundance for management of commercially important fish
+stocks. A critical component of the relationship of the catches of the
+survey to the size of a fish stock is the catch efficiency of the survey
+gear. Using a general hierarchical model we estimated the relative
+efficiency of a chain sweep to the rockhopper sweep used by the
+Northeast Fisheries Science Center bottom trawl survey from paired-gear
+experimental tows carried out between 2015 and 2017 using a twin-trawl
+vessel. For 10 commercially important species, we fitted and compared a
+set of models with alternative assumptions about variation of relative
+efficiency between paired gear tows, size and diel effects on the
+relative efficiency, and extra-binomial variation of observations within
+paired gear tows. These analyses provided evidence of changes in
+relative efficiency with size for all species and diel effects were
+important for all but one species. We then used the bottom trawl survey
+data from surveys between 2009 and 2019 with the relative catch
+efficiency estimates from the best performing models to estimate annual
+and seasonal chain sweep-based swept area biomass for 17 managed stocks.
+We estimated uncertainty in all results using bootstrap procedures for
+each data component. We also assessed the effect of calibration on
+uncertainty and correlation of the annual biomass estimates. 
 
 ### Keywords
 
