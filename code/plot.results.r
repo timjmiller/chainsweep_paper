@@ -1,4 +1,4 @@
-plot.results = function(sp.name, i, ymax = 6, xlim, sp.tab= sp.info, ylab = "Relative Catch Efficiency\n(Chain:Rockhopper)", pdir)
+plot.results = function(sp.name, i, ymax = 6, xlim, sp.tab= sp.info, ylab = "Relative Catch Efficiency\n(Chain:Rockhopper)", pdir, dn.legend.loc=NULL)
 {
   parentdir = getwd()
   plot.input.fn = function(x)
@@ -115,6 +115,7 @@ plot.results = function(sp.name, i, ymax = 6, xlim, sp.tab= sp.info, ylab = "Rel
 #      par(oma = c(1,1,1,1), mar = c(4,4,0,0), mfrow = c(1,1))
       #par(oma = c(1,1,1,1), mar = c(4,4,3,0), mfrow = c(1,2))
       plot(plen, exp(z[ind[,1],1]), type = 'n', ylim = c(0, ymax[1]), xlim = xlim, axes = FALSE, ann = FALSE)
+      if(!is.null(dn.legend.loc)) legend(dn.legend.loc, legend = c("Day","Night"), col = pal, lty = 1, lwd = 2, bty = "n", box.col = "white")
       box(lwd = 2)
       grid(col = gray(0.7), lwd = 1, lty = 2)
       abline(h = 1, col = tcol, lwd =2)

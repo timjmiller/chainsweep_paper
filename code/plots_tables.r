@@ -155,7 +155,10 @@ source("code/plot.results.r")
 par(oma = c(3,3,0,0), mar = c(2,2,3,1), mfcol = c(5,2))
 for(i in species.order) 
 {
-  plot.results(sp.info$sp.names[i], pdir = parentdir, ymax = ymax.sp[i]) 
+  print(i)
+  dn.legend.loc = NULL
+  if(i == species.order[length(species.order)]) dn.legend.loc = "topright"
+  plot.results(sp.info$sp.names[i], pdir = parentdir, ymax = ymax.sp[i], dn.legend.loc = dn.legend.loc) 
   mtext(side = 3, sp.info$sp.pretty.names[i], line = 0, cex = 1.5)
 }
 mtext(side = 1, 'Length (cm)', line = 1, cex = 1.5, outer = TRUE)

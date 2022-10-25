@@ -203,16 +203,16 @@ for(i in 1:NROW(sp.info))
 
 
 #make plots of results for each species including bootstrap-based confidence intervals.
-plot.results.fn(1) 
-for(i in 2:6) plot.results.fn(i) 
-plot.results.fn(7) #goosefish
-plot.results.fn(3, 10, sp.info) #windowpane, need wider y-axis
-plot.results.fn(8, ymax = 8) #barndoor skate
-plot.results.fn(9) #thorny skate
-plot.results.fn(5, ymax = 10) #yellowtail flounder
-plot.results.fn(6, ymax = 10) #witch flounder
-plot.results.fn(10, ymax = 10) #red hake
-plot.results.fn(11,6) #cod
+# plot.results.fn(1) 
+# for(i in 2:6) plot.results.fn(i) 
+# plot.results.fn(7) #goosefish
+# plot.results.fn(3, 10, sp.info) #windowpane, need wider y-axis
+# plot.results.fn(8, ymax = 8) #barndoor skate
+# plot.results.fn(9) #thorny skate
+# plot.results.fn(5, ymax = 10) #yellowtail flounder
+# plot.results.fn(6, ymax = 10) #witch flounder
+# plot.results.fn(10, ymax = 10) #red hake
+# plot.results.fn(11,6) #cod
 
 
 #make summary table of AIC for each model/species
